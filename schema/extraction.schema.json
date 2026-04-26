@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BilingualTechnicalExtraction",
+  "type": "object",
+  "required": ["task_id", "source_text", "language_profile", "extraction"],
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "language_profile": {
+      "type": "object",
+      "required": ["primary_language", "contains_code_switching"],
+      "properties": {
+        "primary_language": {
+          "type": "string",
+          "enum": ["zh", "en", "mixed"]
+        },
+        "contains_code_switching": {
+          "type": "boolean"
+        },
+        "script_notes": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "primary_language": {
+                "const": "mixed"
+              }
+            },
+            "required": ["primary_language"]
+          },
+          "then": {
+            "properties": {
+              "contains_code_switching": {
+                "const": true
+              }
+            }
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "extraction": {
+      "type": "object",
+      "required": [
+        "doc_type",
+        "entities",
+        "parameters",
+        "constraints",
+        "actions",
+        "artifacts",
+        "timestamps",
+        "numeric_values"
+      ],
+      "properties": {
+        "doc_type": {
+          "type": "string",
+          "enum": [
+            "bug_report",
+            "runbook",
+            "api_note",
+            "config_guide",
+            "incident_summary",
+            "experiment_note",
+            "deployment_instruction",
+            "spec_fragment",
+            "other"
+          ]
+        },
+        "entities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type", "surface_form"],
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "service",
+                  "model",
+                  "api",
+                  "file",
+                  "table",
+                  "field",
+                  "person",
+                  "team",
+                  "environment",
+                  "library",
+                  "metric",
+                  "other"
+                ]
+              },
+              "surface_form": { "type": "string", "minLength": 1 },
+              "normalized_name": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["key", "value"],
+            "properties": {
+              "key": { "type": "string", "minLength": 1 },
+              "value": {
+                "type": ["string", "number", "boolean", "null"]
+              },
+              "unit": { "type": "string" },
+              "normalized_value": {
+                "type": ["string", "number", "boolean", "null"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["action_text"],
+            "properties": {
+              "action_text": { "type": "string", "minLength": 1 },
+              "actor": { "type": "string" },
+              "target": { "type": "string" },
+              "status": {
+                "type": "string",
+                "enum": ["required", "optional", "completed", "failed", "planned", "unknown"]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["artifact_name", "artifact_type"],
+            "properties": {
+              "artifact_name": { "type": "string", "minLength": 1 },
+              "artifact_type": {
+                "type": "string",
+                "enum": ["file", "url", "table", "log", "config", "command", "other"]
+              },
+              "location": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "timestamps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["text"],
+            "properties": {
+              "text": { "type": "string", "minLength": 1 },
+              "normalized_iso8601": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "timezone": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "numeric_values": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value_text"],
+            "properties": {
+              "value_text": { "type": "string", "minLength": 1 },
+              "value": { "type": "number" },
+              "unit": { "type": "string" },
+              "metric_name": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
