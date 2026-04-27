@@ -15,6 +15,7 @@ Subdirectories:
 - `samples/`: raw texts, gold JSON, and per-sample metadata
 - `splits/`: dataset split manifests
 - `eval/`: scoring configuration and adjudication exception rules
+- `runs/`: run manifests and scored reports
 
 Minimal evaluator:
 - `experiments/round1/eval/evaluator.py`
@@ -24,3 +25,5 @@ Minimal evaluator:
   `python3 experiments/round1/eval/evaluator.py --prediction-dir <dir> --task-id seed_en_0002 --task-id seed_mix_0003`
 - Split mode with report file:
   `python3 experiments/round1/eval/evaluator.py --prediction-dir <dir> --split experiments/round1/splits/dev.jsonl --output score_report.json`
+- Multi-group run report:
+  `python3 experiments/round1/eval/run_report.py --manifest experiments/round1/runs/dev_template_manifest.json --output run_report.json`

@@ -1,0 +1,47 @@
+{
+  "split": "experiments/round1/splits/dev.jsonl",
+  "groups": {
+    "baseline": [
+      {
+        "repeat_id": "r1",
+        "prediction_dir": "experiments/round1/runs/dev/baseline_r1"
+      },
+      {
+        "repeat_id": "r2",
+        "prediction_dir": "experiments/round1/runs/dev/baseline_r2"
+      },
+      {
+        "repeat_id": "r3",
+        "prediction_dir": "experiments/round1/runs/dev/baseline_r3"
+      }
+    ],
+    "treatment_a": [
+      {
+        "repeat_id": "r1",
+        "prediction_dir": "experiments/round1/runs/dev/treatment_a_r1"
+      },
+      {
+        "repeat_id": "r2",
+        "prediction_dir": "experiments/round1/runs/dev/treatment_a_r2"
+      },
+      {
+        "repeat_id": "r3",
+        "prediction_dir": "experiments/round1/runs/dev/treatment_a_r3"
+      }
+    ],
+    "treatment_b": [
+      {
+        "repeat_id": "r1",
+        "prediction_dir": "experiments/round1/runs/dev/treatment_b_r1"
+      },
+      {
+        "repeat_id": "r2",
+        "prediction_dir": "experiments/round1/runs/dev/treatment_b_r2"
+      },
+      {
+        "repeat_id": "r3",
+        "prediction_dir": "experiments/round1/runs/dev/treatment_b_r3"
+      }
+    ]
+  }
+}
