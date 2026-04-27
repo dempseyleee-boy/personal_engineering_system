@@ -238,18 +238,89 @@ def score_prediction_file(repo_root: Path, gold_path: Path, prediction_path: Pat
     return score_prediction(repo_root=repo_root, gold_obj=gold_obj, prediction_obj=prediction_obj)
 
 
+def _missing_prediction_result(task_id, metric_names):
+    return {
+        "task_id": task_id,
+        "primary_metrics": _empty_primary_metrics(metric_names),
+        "primary_score": 0.0,
+        "hard_fail_reason": "missing_prediction",
+    }
+
+
+def _mean(values):
+    if not values:
+        return 0.0
+    return round(sum(values) / len(values), 6)
+
+
+def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
+    config, _, _ = _load_runtime(repo_root)
+    gold_root = repo_root / config["gold_root"]
+    results = []
+    scored_count = 0
+    hard_fail_count = 0
+    missing_prediction_count = 0
+
+    for task_id in task_ids:
+        gold_path = gold_root / f"{task_id}.json"
+        prediction_path = prediction_dir / f"{task_id}.json"
+        if not prediction_path.exists():
+            result = _missing_prediction_result(task_id, config["primary_metrics"])
+            results.append(result)
+            hard_fail_count += 1
+            missing_prediction_count += 1
+            continue
+
+        result = score_prediction_file(
+            repo_root=repo_root,
+            gold_path=gold_path,
+            prediction_path=prediction_path,
+        )
+        results.append(result)
+        scored_count += 1
+        if result["hard_fail_reason"] is not None:
+            hard_fail_count += 1
+
+    scores = [result["primary_score"] for result in results]
+    summary = {
+        "sample_count": len(task_ids),
+        "scored_count": scored_count,
+        "missing_prediction_count": missing_prediction_count,
+        "hard_fail_count": hard_fail_count,
+        "mean_primary_score": _mean(scores),
+    }
+    return {
+        "results": results,
+        "summary": summary,
+    }
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Score one round-1 extraction prediction against gold.")
+    parser = argparse.ArgumentParser(description="Score round-1 extraction predictions against gold.")
     parser.add_argument("--repo-root", default=str(Path(__file__).resolve().parents[3]))
-    parser.add_argument("--gold", required=True)
-    parser.add_argument("--prediction", required=True)
+    parser.add_argument("--gold")
+    parser.add_argument("--prediction")
+    parser.add_argument("--prediction-dir")
+    parser.add_argument("--task-id", action="append", dest="task_ids")
     args = parser.parse_args()
 
-    result = score_prediction_file(
-        repo_root=Path(args.repo_root),
-        gold_path=Path(args.gold),
-        prediction_path=Path(args.prediction),
-    )
+    repo_root = Path(args.repo_root)
+    if args.prediction_dir:
+        if not args.task_ids:
+            raise SystemExit("--prediction-dir requires at least one --task-id")
+        result = score_prediction_directory(
+            repo_root=repo_root,
+            prediction_dir=Path(args.prediction_dir),
+            task_ids=args.task_ids,
+        )
+    else:
+        if not args.gold or not args.prediction:
+            raise SystemExit("single-file mode requires --gold and --prediction")
+        result = score_prediction_file(
+            repo_root=repo_root,
+            gold_path=Path(args.gold),
+            prediction_path=Path(args.prediction),
+        )
     print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
 
 

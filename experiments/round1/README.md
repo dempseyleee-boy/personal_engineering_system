@@ -20,3 +20,5 @@ Minimal evaluator:
 - `experiments/round1/eval/evaluator.py`
 - Usage:
   `python3 experiments/round1/eval/evaluator.py --gold experiments/round1/samples/gold/<task>.json --prediction <prediction.json>`
+- Directory mode:
+  `python3 experiments/round1/eval/evaluator.py --prediction-dir <dir> --task-id seed_en_0002 --task-id seed_mix_0003`
