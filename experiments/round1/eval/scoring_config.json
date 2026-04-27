@@ -14,6 +14,7 @@
   ],
   "secondary_metrics": [
     "action_semantic_f1",
+    "constraint_semantic_f1",
     "hallucination_rate",
     "critical_error_rate",
     "score_variance",

@@ -15,10 +15,11 @@
       },
       "mean_primary_score": 0.513393,
       "mean_secondary_metrics": {
-        "action_semantic_f1": 0.612,
+        "action_semantic_f1": 0.618352,
         "average_interaction_count": 0.0,
         "average_runtime_seconds": 0.0,
         "average_token_usage": 0.0,
+        "constraint_semantic_f1": 0.403056,
         "critical_error_rate": 0.0,
         "hallucination_rate": 0.0,
         "score_variance": 0.0
@@ -40,10 +41,11 @@
       },
       "mean_primary_score": 0.489365,
       "mean_secondary_metrics": {
-        "action_semantic_f1": 0.740556,
+        "action_semantic_f1": 0.743148,
         "average_interaction_count": 0.0,
         "average_runtime_seconds": 0.0,
         "average_token_usage": 0.0,
+        "constraint_semantic_f1": 0.430834,
         "critical_error_rate": 0.0,
         "hallucination_rate": 0.0,
         "score_variance": 0.0
@@ -65,10 +67,11 @@
       },
       "mean_primary_score": 0.626171,
       "mean_secondary_metrics": {
-        "action_semantic_f1": 0.888889,
+        "action_semantic_f1": 0.892778,
         "average_interaction_count": 0.0,
         "average_runtime_seconds": 0.0,
         "average_token_usage": 0.0,
+        "constraint_semantic_f1": 0.351111,
         "critical_error_rate": 0.0,
         "hallucination_rate": 0.0,
         "score_variance": 0.0
@@ -102,6 +105,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.36,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -123,10 +127,11 @@
           },
           "primary_score": 0.431667,
           "secondary_metrics": {
-            "action_semantic_f1": 0.665333,
+            "action_semantic_f1": 0.684,
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.0,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -148,10 +153,11 @@
           },
           "primary_score": 0.486667,
           "secondary_metrics": {
-            "action_semantic_f1": 0.569444,
+            "action_semantic_f1": 0.588889,
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -177,6 +183,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.4,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -202,6 +209,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -227,6 +235,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.325,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -249,10 +258,11 @@
         },
         "mean_primary_score": 0.513393,
         "mean_secondary_metrics": {
-          "action_semantic_f1": 0.612,
+          "action_semantic_f1": 0.618352,
           "average_interaction_count": 0.0,
           "average_runtime_seconds": 0.0,
           "average_token_usage": 0.0,
+          "constraint_semantic_f1": 0.403056,
           "critical_error_rate": 0.0,
           "hallucination_rate": 0.0,
           "score_variance": 0.0
@@ -286,6 +296,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.325,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -307,10 +318,11 @@
           },
           "primary_score": 0.431667,
           "secondary_metrics": {
-            "action_semantic_f1": 0.911111,
+            "action_semantic_f1": 0.926667,
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.0,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -336,6 +348,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -361,6 +374,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.26,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -386,6 +400,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -411,6 +426,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -433,10 +449,11 @@
         },
         "mean_primary_score": 0.489365,
         "mean_secondary_metrics": {
-          "action_semantic_f1": 0.740556,
+          "action_semantic_f1": 0.743148,
           "average_interaction_count": 0.0,
           "average_runtime_seconds": 0.0,
           "average_token_usage": 0.0,
+          "constraint_semantic_f1": 0.430834,
           "critical_error_rate": 0.0,
           "hallucination_rate": 0.0,
           "score_variance": 0.0
@@ -470,6 +487,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.433333,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -491,10 +509,11 @@
           },
           "primary_score": 0.581667,
           "secondary_metrics": {
-            "action_semantic_f1": 0.926667,
+            "action_semantic_f1": 0.95,
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.0,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -520,6 +539,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -545,6 +565,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.0,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -570,6 +591,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.573333,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -595,6 +617,7 @@
             "average_interaction_count": 0.0,
             "average_runtime_seconds": 0.0,
             "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.433333,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
             "score_variance": 0.0
@@ -617,10 +640,11 @@
         },
         "mean_primary_score": 0.626171,
         "mean_secondary_metrics": {
-          "action_semantic_f1": 0.888889,
+          "action_semantic_f1": 0.892778,
           "average_interaction_count": 0.0,
           "average_runtime_seconds": 0.0,
           "average_token_usage": 0.0,
+          "constraint_semantic_f1": 0.351111,
           "critical_error_rate": 0.0,
           "hallucination_rate": 0.0,
           "score_variance": 0.0

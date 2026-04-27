@@ -170,6 +170,11 @@ _VERB_PATTERNS = [
     ("disable", [r"\bdisable\b", r"关闭"]),
     ("set", [r"\bset\b", r"设为", r"调到", r"改到", r"设置"]),
 ]
+_COMPARATOR_PATTERNS = [
+    ("gt", [r"\bgreater than\b", r"\bexceeds?\b", r"\bover\b", r">", r"超过"]),
+    ("lt", [r"\bless than\b", r"\bbelow\b", r"\bund(er)?\b", r"<", r"低于", r"少于", r"falls under"]),
+    ("before", [r"\bbefore\b", r"\bby\b", r"前", r"截止"]),
+]
 _ACTION_STOPWORDS = {
     "set",
     "enable",
@@ -198,6 +203,17 @@ _ACTION_STOPWORDS = {
     "alert",
     "send",
     "and",
+    "by",
+    "do",
+    "not",
+    "unless",
+    "if",
+    "before",
+    "exceeds",
+    "exceed",
+    "below",
+    "under",
+    "falls",
     "true",
     "false",
     "required",
@@ -334,6 +350,78 @@ def _semantic_action_f1(gold_actions, pred_actions):
     return round(2 * precision * recall / (precision + recall), 6)
 
 
+def _constraint_comparator(text):
+    normalized = _canonical_string(text)
+    for comparator, patterns in _COMPARATOR_PATTERNS:
+        for pattern in patterns:
+            if re.search(pattern, normalized):
+                return comparator
+    return "none"
+
+
+def _constraint_signature(text):
+    normalized = _strip_timestamps(_canonical_string(text))
+    tokens = [
+        token
+        for token in _IDENTIFIER_RE.findall(normalized)
+        if token not in _ACTION_STOPWORDS and token not in {"t", "z", "."} and not token.isdigit()
+    ]
+    return {
+        "polarity": _action_polarity(normalized),
+        "comparator": _constraint_comparator(normalized),
+        "identifiers": sorted(set(tokens)),
+        "values": sorted(set(_NUMBER_RE.findall(normalized))),
+    }
+
+
+def _constraint_similarity(gold_text, pred_text):
+    gold_sig = _constraint_signature(gold_text)
+    pred_sig = _constraint_signature(pred_text)
+
+    if gold_sig["polarity"] != pred_sig["polarity"]:
+        return 0.0
+    if gold_sig["comparator"] != pred_sig["comparator"]:
+        return 0.0
+
+    identifier_score = _overlap_score(gold_sig["identifiers"], pred_sig["identifiers"])
+    if identifier_score == 0.0:
+        return 0.0
+
+    value_score = _overlap_score(gold_sig["values"], pred_sig["values"])
+    return round(0.7 * identifier_score + 0.3 * value_score, 6)
+
+
+def _semantic_constraint_f1(gold_constraints, pred_constraints):
+    if not gold_constraints and not pred_constraints:
+        return 1.0
+    if not gold_constraints or not pred_constraints:
+        return 0.0
+
+    pairs = []
+    for gold_idx, gold_constraint in enumerate(gold_constraints):
+        for pred_idx, pred_constraint in enumerate(pred_constraints):
+            similarity = _constraint_similarity(gold_constraint, pred_constraint)
+            if similarity > 0.0:
+                pairs.append((similarity, gold_idx, pred_idx))
+    pairs.sort(reverse=True)
+
+    matched_gold = set()
+    matched_pred = set()
+    matched_sum = 0.0
+    for similarity, gold_idx, pred_idx in pairs:
+        if gold_idx in matched_gold or pred_idx in matched_pred:
+            continue
+        matched_gold.add(gold_idx)
+        matched_pred.add(pred_idx)
+        matched_sum += similarity
+
+    precision = matched_sum / len(pred_constraints)
+    recall = matched_sum / len(gold_constraints)
+    if precision + recall == 0:
+        return 0.0
+    return round(2 * precision * recall / (precision + recall), 6)
+
+
 def _weighted_sum(metrics, weights):
     total = 0.0
     for metric_name, weight in weights.items():
@@ -392,6 +480,10 @@ def score_prediction(repo_root: Path, gold_obj, prediction_obj):
         _normalize_constraints(gold_extraction["constraints"]),
         _normalize_constraints(pred_extraction["constraints"]),
     )
+    secondary_metrics["constraint_semantic_f1"] = _semantic_constraint_f1(
+        gold_extraction["constraints"],
+        pred_extraction["constraints"],
+    )
     primary_metrics["action_f1"] = _f1_from_sets(
         _normalize_actions(gold_extraction["actions"]),
         _normalize_actions(pred_extraction["actions"]),
@@ -443,7 +535,7 @@ def _missing_prediction_result(task_id, metric_names):
     return {
         "task_id": task_id,
         "primary_metrics": _empty_metrics(metric_names),
-        "secondary_metrics": {"action_semantic_f1": 0.0},
+        "secondary_metrics": {"action_semantic_f1": 0.0, "constraint_semantic_f1": 0.0},
         "primary_score": 0.0,
         "hard_fail_reason": "missing_prediction",
     }

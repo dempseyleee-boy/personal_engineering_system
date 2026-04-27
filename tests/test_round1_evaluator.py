@@ -187,6 +187,40 @@ class Round1EvaluatorTests(unittest.TestCase):
         self.assertLess(result["secondary_metrics"]["action_semantic_f1"], 1.0)
         self.assertGreater(result["secondary_metrics"]["action_semantic_f1"], 0.0)
 
+    def test_constraint_semantic_metric_matches_equivalent_phrasings(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_mix_0009.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_mix_0009.json").read_text())
+        prediction_obj["extraction"]["constraints"] = [
+            "Do not purge session-store unless error_rate > 0.02.",
+            "结果追加到 cache_audit.log，截止 2026-05-09T11:30:00Z。",
+        ]
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertEqual(result["primary_metrics"]["constraint_f1"], 0.0)
+        self.assertEqual(result["secondary_metrics"]["constraint_semantic_f1"], 1.0)
+
+    def test_constraint_semantic_metric_penalizes_direction_errors(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_mix_0012.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_mix_0012.json").read_text())
+        prediction_obj["extraction"]["constraints"] = [
+            "If error_budget_remaining rises above 15 %, freeze rollout.",
+            "Attach notes to billing_canary.md.",
+        ]
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertLess(result["secondary_metrics"]["constraint_semantic_f1"], 1.0)
+        self.assertGreaterEqual(result["secondary_metrics"]["constraint_semantic_f1"], 0.0)
+
 
 if __name__ == "__main__":
     unittest.main()
