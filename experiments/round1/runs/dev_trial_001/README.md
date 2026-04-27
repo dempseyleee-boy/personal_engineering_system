@@ -16,6 +16,7 @@ Per-group directory contract:
 - each directory must contain one prediction JSON per task
 - filename must be exactly `<task_id>.json`
 - each prediction must follow `schema/extraction.schema.json`
+- executable job list lives in `job_specs.jsonl`
 
 Directories:
 - `baseline_r1/`
