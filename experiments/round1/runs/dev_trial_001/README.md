@@ -2,6 +2,10 @@
 
 This is the first real execution bundle for the round-1 experiment.
 
+Execution guide:
+- `EXECUTION_GUIDE.md`
+- `job_specs.jsonl`
+
 Scope:
 - split subset: first 3 tasks from `experiments/round1/splits/dev.jsonl`
 - groups: `baseline`, `treatment_a`, `treatment_b`

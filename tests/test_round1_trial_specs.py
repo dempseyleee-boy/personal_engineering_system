@@ -5,6 +5,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 JOB_SPECS_PATH = REPO_ROOT / "experiments/round1/runs/dev_trial_001/job_specs.jsonl"
+GUIDE_PATH = REPO_ROOT / "experiments/round1/runs/dev_trial_001/EXECUTION_GUIDE.md"
 
 
 class Round1TrialSpecsTests(unittest.TestCase):
@@ -37,6 +38,14 @@ class Round1TrialSpecsTests(unittest.TestCase):
 
             if "provided_repo_root" in job:
                 self.assertTrue((REPO_ROOT / job["provided_repo_root"]).exists(), job["provided_repo_root"])
+
+    def test_execution_guide_mentions_all_job_ids(self):
+        guide_text = GUIDE_PATH.read_text()
+        lines = [line for line in JOB_SPECS_PATH.read_text().splitlines() if line.strip()]
+        jobs = [json.loads(line) for line in lines]
+
+        for job in jobs:
+            self.assertIn(job["job_id"], guide_text)
 
 
 if __name__ == "__main__":
