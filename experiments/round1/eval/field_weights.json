@@ -1,0 +1,13 @@
+{
+  "primary_metric_weights": {
+    "schema_validity": 0.1,
+    "field_presence_accuracy": 0.1,
+    "entity_f1": 0.15,
+    "parameter_f1": 0.15,
+    "constraint_f1": 0.1,
+    "action_f1": 0.15,
+    "artifact_f1": 0.1,
+    "timestamp_accuracy": 0.075,
+    "numeric_normalization_accuracy": 0.075
+  }
+}

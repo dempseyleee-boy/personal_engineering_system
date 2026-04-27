@@ -1,0 +1,29 @@
+{
+  "exception_categories": [
+    {
+      "name": "surface_alias_only",
+      "description": "Prediction differs from gold only by approved alias normalization or script variant.",
+      "handling_policy": "treat_as_match_after_normalization"
+    },
+    {
+      "name": "boundary_ambiguous_span",
+      "description": "A span can reasonably be attached to either a parameter or constraint boundary without changing semantics.",
+      "handling_policy": "allow_manual_adjudication"
+    },
+    {
+      "name": "timestamp_timezone_inferred",
+      "description": "Prediction preserves the timestamp value but omits or infers timezone details not explicit in the source text.",
+      "handling_policy": "partial_credit"
+    },
+    {
+      "name": "numeric_unit_equivalence",
+      "description": "Prediction uses an approved unit alias or equivalent surface form covered by normalization rules.",
+      "handling_policy": "treat_as_match_after_normalization"
+    },
+    {
+      "name": "unsupported_hallucinated_field",
+      "description": "Prediction adds unsupported extracted content not grounded in the source text.",
+      "handling_policy": "score_as_hallucination"
+    }
+  ]
+}

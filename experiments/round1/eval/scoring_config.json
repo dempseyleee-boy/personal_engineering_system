@@ -1,0 +1,36 @@
+{
+  "schema_path": "schema/extraction.schema.json",
+  "gold_root": "experiments/round1/samples/gold",
+  "primary_metrics": [
+    "schema_validity",
+    "field_presence_accuracy",
+    "entity_f1",
+    "parameter_f1",
+    "constraint_f1",
+    "action_f1",
+    "artifact_f1",
+    "timestamp_accuracy",
+    "numeric_normalization_accuracy"
+  ],
+  "secondary_metrics": [
+    "hallucination_rate",
+    "critical_error_rate",
+    "score_variance",
+    "average_token_usage",
+    "average_runtime_seconds",
+    "average_interaction_count"
+  ],
+  "aggregate_policy": {
+    "primary_score_formula": "weighted_sum",
+    "repeat_aggregation": "mean",
+    "group_aggregation": "macro_average",
+    "missing_field_policy": "score_zero_for_field",
+    "empty_array_policy": "allow_when_gold_empty_only"
+  },
+  "hard_fail_rules": {
+    "invalid_json_score": 0.0,
+    "schema_invalid_caps_primary_score_at": 0.15,
+    "wrong_task_id_caps_primary_score_at": 0.0,
+    "unsupported_extra_top_level_keys": "schema_failure"
+  }
+}

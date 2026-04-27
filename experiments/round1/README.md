@@ -9,3 +9,9 @@ Groups:
 
 Samples mean 24 unique tasks total.
 Each task is run in all 3 groups, with 3 repeats per group.
+
+Subdirectories:
+- `prompts/`: contract prompts for Baseline, Treatment A, and Treatment B
+- `samples/`: raw texts, gold JSON, and per-sample metadata
+- `splits/`: dataset split manifests
+- `eval/`: scoring configuration and adjudication exception rules
