@@ -7,6 +7,10 @@ Recommended layout:
 - one subdirectory per group/repeat containing prediction JSON files
 - one report JSON emitted by `experiments/round1/eval/run_report.py`
 
+Current bundles:
+- `dev_template_manifest.json`: full 3x3 shape template for later runs
+- `dev_trial_001/`: first real trial bundle, restricted to 3 tasks and 1 repeat per group
+
 The manifest format is:
 
 ```json
