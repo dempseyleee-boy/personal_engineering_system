@@ -15,3 +15,8 @@ Subdirectories:
 - `samples/`: raw texts, gold JSON, and per-sample metadata
 - `splits/`: dataset split manifests
 - `eval/`: scoring configuration and adjudication exception rules
+
+Minimal evaluator:
+- `experiments/round1/eval/evaluator.py`
+- Usage:
+  `python3 experiments/round1/eval/evaluator.py --gold experiments/round1/samples/gold/<task>.json --prediction <prediction.json>`
