@@ -30,3 +30,13 @@ skills/CONTEXT_ENGINEERING_SKILL.md
 skills/PROJECT_BOOTSTRAP_SKILL.md
 skills/VERIFICATION_SKILL.md
 ```
+
+## Experiment Scaffold
+
+The first concrete validation path for this package lives in:
+
+- `docs/superpowers/specs/2026-04-27-system-package-ab-experiment-design.md`
+- `schema/`
+- `experiments/round1/`
+
+Round 1 tests whether the package improves bilingual technical-text extraction quality over a baseline agent setup.
