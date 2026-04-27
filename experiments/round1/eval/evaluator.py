@@ -9,6 +9,16 @@ def _load_json(path: Path):
     return json.loads(path.read_text())
 
 
+def load_task_ids_from_split(split_path: Path):
+    task_ids = []
+    for line in split_path.read_text().splitlines():
+        if not line.strip():
+            continue
+        row = json.loads(line)
+        task_ids.append(row["task_id"])
+    return task_ids
+
+
 def _load_runtime(repo_root: Path):
     eval_root = repo_root / "experiments/round1/eval"
     config = _load_json(eval_root / "scoring_config.json")
@@ -301,17 +311,22 @@ def main():
     parser.add_argument("--gold")
     parser.add_argument("--prediction")
     parser.add_argument("--prediction-dir")
+    parser.add_argument("--split")
     parser.add_argument("--task-id", action="append", dest="task_ids")
+    parser.add_argument("--output")
     args = parser.parse_args()
 
     repo_root = Path(args.repo_root)
     if args.prediction_dir:
-        if not args.task_ids:
-            raise SystemExit("--prediction-dir requires at least one --task-id")
+        task_ids = args.task_ids
+        if args.split:
+            task_ids = load_task_ids_from_split(Path(args.split))
+        if not task_ids:
+            raise SystemExit("--prediction-dir requires --split or at least one --task-id")
         result = score_prediction_directory(
             repo_root=repo_root,
             prediction_dir=Path(args.prediction_dir),
-            task_ids=args.task_ids,
+            task_ids=task_ids,
         )
     else:
         if not args.gold or not args.prediction:
@@ -321,7 +336,10 @@ def main():
             gold_path=Path(args.gold),
             prediction_path=Path(args.prediction),
         )
-    print(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True))
+    rendered = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True)
+    if args.output:
+        Path(args.output).write_text(rendered + "\n")
+    print(rendered)
 
 
 if __name__ == "__main__":

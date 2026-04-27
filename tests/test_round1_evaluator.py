@@ -3,7 +3,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from experiments.round1.eval.evaluator import score_prediction_directory, score_prediction_file
+from experiments.round1.eval.evaluator import (
+    load_task_ids_from_split,
+    score_prediction_directory,
+    score_prediction_file,
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -121,6 +125,30 @@ class Round1EvaluatorTests(unittest.TestCase):
         missing_result = next(item for item in result["results"] if item["task_id"] == "seed_zh_0001")
         self.assertEqual(missing_result["hard_fail_reason"], "missing_prediction")
         self.assertEqual(missing_result["primary_score"], 0.0)
+
+    def test_load_task_ids_from_split_reads_jsonl_manifest(self):
+        split_path = REPO_ROOT / "experiments/round1/splits/dev.jsonl"
+        task_ids = load_task_ids_from_split(split_path)
+
+        self.assertEqual(task_ids[:3], ["seed_zh_0001", "seed_en_0002", "seed_mix_0003"])
+        self.assertEqual(len(task_ids), 6)
+
+    def test_directory_scoring_can_use_split_manifest(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            prediction_dir = Path(temp_dir)
+            for task_id in ["seed_zh_0001", "seed_en_0002"]:
+                gold_path = GOLD_ROOT / f"{task_id}.json"
+                (prediction_dir / f"{task_id}.json").write_text(gold_path.read_text())
+
+            task_ids = load_task_ids_from_split(REPO_ROOT / "experiments/round1/splits/dev.jsonl")[:2]
+            result = score_prediction_directory(
+                repo_root=REPO_ROOT,
+                prediction_dir=prediction_dir,
+                task_ids=task_ids,
+            )
+
+        self.assertEqual(result["summary"]["sample_count"], 2)
+        self.assertEqual(result["summary"]["mean_primary_score"], 1.0)
 
 
 if __name__ == "__main__":
