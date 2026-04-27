@@ -1,0 +1,98 @@
+{
+  "task_id": "seed_zh_0010",
+  "source_text": "故障处理：将 worker_pool_size 保持为 12，不要重建 metrics-table；如果 backlog 超过 5000，则暂停 sync-job，并把告警发送到 oncall.md。计划窗口 2026-05-10T22:45:00Z。",
+  "language_profile": {
+    "primary_language": "zh",
+    "contains_code_switching": true,
+    "script_notes": "Chinese incident handling instruction with embedded English identifiers."
+  },
+  "extraction": {
+    "doc_type": "incident_summary",
+    "entities": [
+      {
+        "name": "worker_pool_size",
+        "type": "other",
+        "surface_form": "worker_pool_size"
+      },
+      {
+        "name": "metrics-table",
+        "type": "table",
+        "surface_form": "metrics-table"
+      },
+      {
+        "name": "backlog",
+        "type": "metric",
+        "surface_form": "backlog"
+      },
+      {
+        "name": "sync-job",
+        "type": "service",
+        "surface_form": "sync-job"
+      },
+      {
+        "name": "oncall.md",
+        "type": "file",
+        "surface_form": "oncall.md"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "worker_pool_size",
+        "value": 12,
+        "normalized_value": 12
+      }
+    ],
+    "constraints": [
+      "Do not rebuild metrics-table",
+      "If backlog exceeds 5000, pause sync-job",
+      "If backlog exceeds 5000, send the alert to oncall.md",
+      "Use the 2026-05-10T22:45:00Z plan window"
+    ],
+    "actions": [
+      {
+        "action_text": "Keep worker_pool_size at 12",
+        "target": "worker_pool_size",
+        "status": "required"
+      },
+      {
+        "action_text": "Pause sync-job",
+        "target": "sync-job",
+        "status": "required"
+      },
+      {
+        "action_text": "Send the alert to oncall.md",
+        "target": "oncall.md",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "metrics-table",
+        "artifact_type": "table"
+      },
+      {
+        "artifact_name": "oncall.md",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-10T22:45:00Z",
+        "normalized_iso8601": "2026-05-10T22:45:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "12",
+        "value": 12,
+        "metric_name": "worker_pool_size"
+      },
+      {
+        "value_text": "5000",
+        "value": 5000,
+        "metric_name": "backlog"
+      }
+    ]
+  }
+}

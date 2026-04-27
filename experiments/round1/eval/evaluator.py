@@ -97,18 +97,15 @@ def _normalize_entities(items):
 
 
 def _normalize_parameters(items):
-    normalized_items = []
-    for item in items:
-        canonical = {
-            "key": _canonical_string(item.get("key", "")),
-            "value": item.get("value"),
-            "unit": _canonical_string(item.get("unit", "")),
-        }
-        normalized_value = item.get("normalized_value")
-        if normalized_value is not None and normalized_value != item.get("value"):
-            canonical["normalized_value"] = normalized_value
-        normalized_items.append(_sorted_json(canonical))
-    return normalized_items
+    return [
+        _sorted_json(
+            {
+                "key": _canonical_string(item.get("key", "")),
+                "value": item.get("value"),
+            }
+        )
+        for item in items
+    ]
 
 
 def _normalize_constraints(items):
