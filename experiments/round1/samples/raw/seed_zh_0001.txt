@@ -1,0 +1,1 @@
+部署约束：不要在高峰期重启 payment-service。将 retries 设置为 3，并记录到 deploy.log。计划操作时间为 2026-04-27T10:00:00Z。

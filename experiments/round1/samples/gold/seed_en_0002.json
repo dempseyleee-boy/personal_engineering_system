@@ -1,0 +1,59 @@
+{
+  "task_id": "seed_en_0002",
+  "source_text": "Incident summary: api-gateway returned 503 after config_version was set to v2.1. Roll back config_version to v2.0 before 2026-04-28T02:30:00Z and save the error trace in incident.log.",
+  "language_profile": {
+    "primary_language": "en",
+    "contains_code_switching": false
+  },
+  "extraction": {
+    "doc_type": "incident_summary",
+    "entities": [
+      {
+        "name": "api-gateway",
+        "type": "service",
+        "surface_form": "api-gateway"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "config_version",
+        "value": "v2.1"
+      },
+      {
+        "key": "config_version",
+        "value": "v2.0"
+      }
+    ],
+    "constraints": [
+      "Complete the rollback before 2026-04-28T02:30:00Z."
+    ],
+    "actions": [
+      {
+        "action_text": "roll back config_version to v2.0",
+        "status": "required"
+      },
+      {
+        "action_text": "save the error trace in incident.log",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "incident.log",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-04-28T02:30:00Z",
+        "normalized_iso8601": "2026-04-28T02:30:00Z"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "503",
+        "value": 503
+      }
+    ]
+  }
+}

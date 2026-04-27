@@ -1,0 +1,1 @@
+Incident summary: api-gateway returned 503 after config_version was set to v2.1. Roll back config_version to v2.0 before 2026-04-28T02:30:00Z and save the error trace in incident.log.
