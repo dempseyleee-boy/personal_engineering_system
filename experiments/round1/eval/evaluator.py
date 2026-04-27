@@ -10,6 +10,12 @@ def _load_json(path: Path):
     return json.loads(path.read_text())
 
 
+def _load_optional_json(path: Path):
+    if not path.exists():
+        return None
+    return _load_json(path)
+
+
 def load_task_ids_from_split(split_path: Path):
     task_ids = []
     for line in split_path.read_text().splitlines():
@@ -30,7 +36,9 @@ def _load_runtime(repo_root: Path):
 
 
 def _canonical_string(value):
-    return " ".join(str(value).strip().lower().split())
+    normalized = " ".join(str(value).strip().lower().split())
+    normalized = re.sub(r"[.!?。！？]+$", "", normalized)
+    return normalized
 
 
 def _sorted_json(value):
@@ -89,17 +97,18 @@ def _normalize_entities(items):
 
 
 def _normalize_parameters(items):
-    return [
-        _sorted_json(
-            {
-                "key": _canonical_string(item.get("key", "")),
-                "value": item.get("value"),
-                "unit": _canonical_string(item.get("unit", "")),
-                "normalized_value": item.get("normalized_value"),
-            }
-        )
-        for item in items
-    ]
+    normalized_items = []
+    for item in items:
+        canonical = {
+            "key": _canonical_string(item.get("key", "")),
+            "value": item.get("value"),
+            "unit": _canonical_string(item.get("unit", "")),
+        }
+        normalized_value = item.get("normalized_value")
+        if normalized_value is not None and normalized_value != item.get("value"):
+            canonical["normalized_value"] = normalized_value
+        normalized_items.append(_sorted_json(canonical))
+    return normalized_items
 
 
 def _normalize_constraints(items):
@@ -111,8 +120,6 @@ def _normalize_actions(items):
         _sorted_json(
             {
                 "action_text": _canonical_string(item.get("action_text", "")),
-                "actor": _canonical_string(item.get("actor", "")),
-                "target": _canonical_string(item.get("target", "")),
                 "status": _canonical_string(item.get("status", "")),
             }
         )
@@ -547,10 +554,16 @@ def _mean(values):
     return round(sum(values) / len(values), 6)
 
 
+def _metadata_metric_mean(records, field_name):
+    values = [record[field_name] for record in records if field_name in record]
+    return _mean(values)
+
+
 def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
     config, _, _ = _load_runtime(repo_root)
     gold_root = repo_root / config["gold_root"]
     results = []
+    metadata_records = []
     scored_count = 0
     hard_fail_count = 0
     missing_prediction_count = 0
@@ -558,6 +571,7 @@ def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
     for task_id in task_ids:
         gold_path = gold_root / f"{task_id}.json"
         prediction_path = prediction_dir / f"{task_id}.json"
+        metadata_path = prediction_dir / f"{task_id}.meta.json"
         if not prediction_path.exists():
             result = _missing_prediction_result(task_id, config["primary_metrics"])
             results.append(result)
@@ -571,6 +585,9 @@ def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
             prediction_path=prediction_path,
         )
         results.append(result)
+        metadata = _load_optional_json(metadata_path)
+        if metadata is not None:
+            metadata_records.append(metadata)
         scored_count += 1
         if result["hard_fail_reason"] is not None:
             hard_fail_count += 1
@@ -586,6 +603,9 @@ def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
         mean_secondary_metrics[metric_name] = _mean(
             [result["secondary_metrics"].get(metric_name, 0.0) for result in results]
         )
+    mean_secondary_metrics["average_token_usage"] = _metadata_metric_mean(metadata_records, "token_usage")
+    mean_secondary_metrics["average_runtime_seconds"] = _metadata_metric_mean(metadata_records, "runtime_seconds")
+    mean_secondary_metrics["average_interaction_count"] = _metadata_metric_mean(metadata_records, "interaction_count")
     summary = {
         "sample_count": len(task_ids),
         "scored_count": scored_count,

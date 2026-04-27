@@ -1,48 +1,54 @@
 # dev_trial_002 Treatment A Diagnostic
 ## Group Summary
-- `baseline`: primary=0.513393, action_semantic=0.618352, constraint_semantic=0.403056, constraint_strict=0.288889, parameter=0.0
-- `treatment_a`: primary=0.489365, action_semantic=0.743148, constraint_semantic=0.430834, constraint_strict=0.111111, parameter=0.0
-- `treatment_b`: primary=0.626171, action_semantic=0.892778, constraint_semantic=0.351111, constraint_strict=0.0, parameter=0.944445
+- `baseline`: primary=0.70256, action_strict=0.316667, action_semantic=0.688611, constraint_strict=0.288889, constraint_semantic=0.455556, parameter=0.944445
+- `treatment_a`: primary=0.631032, action_strict=0.0, action_semantic=0.75037, constraint_strict=0.111111, constraint_semantic=0.519861, parameter=0.944445
+- `treatment_b`: primary=0.637282, action_strict=0.0, action_semantic=0.892778, constraint_strict=0.111111, constraint_semantic=0.488889, parameter=0.944445
 
-## Why Treatment A Trails Baseline
-- `treatment_a` improves action semantics over baseline, but that gain does not surface in `primary_score` because strict `action_f1` stays at `0.0`.
-- The main penalty is field-boundary drift: instructions that belong in `constraints` are often emitted under `actions`, which drives down strict `constraint_f1`.
-- `treatment_a` also loses some `entity_f1` relative to baseline on the harder mixed and Chinese samples.
+## Why Treatment A Still Trails Baseline
+- The strict-normalization fixes removed a large exact-match bias for baseline. Baseline now benefits from parameter and some action exact matches that treatment_a still misses.
+- `treatment_a` remains semantically stronger on actions and constraints than baseline, but its field-boundary drift still suppresses strict `action_f1` and `constraint_f1`.
+- The remaining gap is now mostly explained by exact field placement, not by lack of semantic understanding.
 
 ## Per-Task Notes
 ### `seed_zh_0007`
-- baseline primary: `0.5625`
-- treatment_a primary: `0.5625`
-- treatment_a action_semantic: `0.666667`
-- treatment_a constraint_semantic: `0.325`
-- note: Moved `Notify platform-team before ...` into actions and emitted `retain previous_config.yaml` as a constraint, so semantic intent is present but field placement diverges from gold.
+- baseline primary: `0.7725`
+- treatment_a primary: `0.7125`
+- baseline action_strict / action_semantic: `0.4` / `0.8`
+- treatment_a action_strict / action_semantic: `0.0` / `0.666667`
+- treatment_a constraint_strict / constraint_semantic: `0.0` / `0.4125`
+- note: Treatment A keeps the scaling rule and retain-file intent, but the notify/deadline instruction remains in actions, so strict action still misses while parameter now matches.
 ### `seed_en_0008`
-- baseline primary: `0.431667`
-- treatment_a primary: `0.431667`
-- treatment_a action_semantic: `0.926667`
-- treatment_a constraint_semantic: `0.0`
-- note: Captured the prohibition correctly in constraints, but omitted the deadline/export constraint from the constraint field and placed it under actions.
+- baseline primary: `0.581667`
+- treatment_a primary: `0.581667`
+- baseline action_strict / action_semantic: `0.0` / `0.74`
+- treatment_a action_strict / action_semantic: `0.0` / `0.95`
+- treatment_a constraint_strict / constraint_semantic: `0.0` / `0.0`
+- note: The prohibition is captured as a constraint and the export instruction as an action. This is semantically sound, but still misses the strict field split expected by gold.
 ### `seed_mix_0009`
-- baseline primary: `0.486667`
-- treatment_a primary: `0.42`
-- treatment_a action_semantic: `0.842857`
-- treatment_a constraint_semantic: `0.666667`
-- note: Captured both constraint and action semantics well, but the append/deadline statement stayed in actions instead of constraints.
+- baseline primary: `0.636667`
+- treatment_a primary: `0.52`
+- baseline action_strict / action_semantic: `0.333333` / `0.666667`
+- treatment_a action_strict / action_semantic: `0.0` / `0.842857`
+- treatment_a constraint_strict / constraint_semantic: `0.0` / `0.666667`
+- note: The append/deadline statement remains in actions instead of constraints, so strict constraint stays at zero even though semantic action is high.
 ### `seed_zh_0010`
-- baseline primary: `0.565`
-- treatment_a primary: `0.4875`
-- treatment_a action_semantic: `0.627778`
-- treatment_a constraint_semantic: `0.26`
-- note: Placed both `do not rebuild` and `pause sync-job if backlog...` in constraints, but also moved the alert/send instruction into actions, lowering constraint coverage.
+- baseline primary: `0.79`
+- treatment_a primary: `0.6375`
+- baseline action_strict / action_semantic: `0.5` / `0.5`
+- treatment_a action_strict / action_semantic: `0.0` / `0.627778`
+- treatment_a constraint_strict / constraint_semantic: `0.0` / `0.706667`
+- note: `do not rebuild` and `pause sync-job` are present, but the alert/send instruction still lands in actions and entity coverage is weaker than baseline.
 ### `seed_en_0011`
-- baseline primary: `0.579167`
-- treatment_a primary: `0.579167`
-- treatment_a action_semantic: `0.817143`
-- treatment_a constraint_semantic: `0.666667`
-- note: Best treatment_a case: one hard constraint stayed in constraints, but the save/deadline statement still remained in actions.
+- baseline primary: `0.829167`
+- treatment_a primary: `0.729167`
+- baseline action_strict / action_semantic: `0.666667` / `1.0`
+- treatment_a action_strict / action_semantic: `0.0` / `0.837143`
+- treatment_a constraint_strict / constraint_semantic: `0.666667` / `0.666667`
+- note: Best aligned treatment_a sample: parameters match exactly and one constraint is exact, but the save/deadline statement still sits in actions.
 ### `seed_mix_0012`
-- baseline primary: `0.455357`
-- treatment_a primary: `0.455357`
-- treatment_a action_semantic: `0.577778`
-- treatment_a constraint_semantic: `0.666667`
-- note: Kept the rollout-freeze condition as a constraint, but moved `attach notes to billing_canary.md` into actions.
+- baseline primary: `0.605357`
+- treatment_a primary: `0.605357`
+- baseline action_strict / action_semantic: `0.0` / `0.425`
+- treatment_a action_strict / action_semantic: `0.0` / `0.577778`
+- treatment_a constraint_strict / constraint_semantic: `0.0` / `0.666667`
+- note: Rollout-freeze and note-attachment are both semantically captured, but the attachment instruction continues to live in actions, not constraints.

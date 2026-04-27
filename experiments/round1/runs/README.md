@@ -5,6 +5,7 @@ This directory stores run manifests and, later, scored reports for actual experi
 Recommended layout:
 - one manifest JSON per experiment batch
 - one subdirectory per group/repeat containing prediction JSON files
+- one optional `.meta.json` sidecar per prediction file containing cost/runtime metadata
 - one report JSON emitted by `experiments/round1/eval/run_report.py`
 
 Current bundles:
@@ -29,3 +30,17 @@ The manifest format is:
   }
 }
 ```
+
+For metadata-aware execution, each prediction file may have a sidecar:
+
+```json
+{
+  "job_id": "baseline_r1_seed_zh_0007",
+  "task_id": "seed_zh_0007",
+  "token_usage": 321,
+  "runtime_seconds": 2.25,
+  "interaction_count": 3
+}
+```
+
+The helper `experiments/round1/runs/materialize_run.py` can write both prediction JSON and `.meta.json` sidecars from a JSONL results stream.

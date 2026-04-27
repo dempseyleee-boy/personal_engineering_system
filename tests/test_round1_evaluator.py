@@ -169,6 +169,52 @@ class Round1EvaluatorTests(unittest.TestCase):
         self.assertEqual(result["primary_metrics"]["action_f1"], 0.0)
         self.assertEqual(result["secondary_metrics"]["action_semantic_f1"], 1.0)
 
+    def test_action_strict_metric_ignores_optional_fields_and_trailing_punctuation(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_en_0011.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_en_0011.json").read_text())
+        prediction_obj["extraction"]["actions"] = [
+            {
+                "action_text": "Pin model_version to 2026.04 in qa.",
+                "target": "model_version",
+                "actor": "release-bot",
+                "status": "required",
+            },
+            {
+                "action_text": "Set retry_backoff_ms to 750.",
+                "target": "retry_backoff_ms",
+                "status": "required",
+            },
+            {
+                "action_text": "Save comparison output in qa_compare.csv.",
+                "target": "qa_compare.csv",
+                "status": "required",
+            },
+        ]
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertEqual(result["primary_metrics"]["action_f1"], 1.0)
+
+    def test_parameter_strict_metric_tolerates_equivalent_normalized_value(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_en_0011.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_en_0011.json").read_text())
+        prediction_obj["extraction"]["parameters"] = [
+            {"key": "model_version", "value": "2026.04", "normalized_value": "2026.04"},
+            {"key": "retry_backoff_ms", "value": 750, "normalized_value": 750},
+        ]
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertEqual(result["primary_metrics"]["parameter_f1"], 1.0)
+
     def test_action_semantic_metric_penalizes_wrong_polarity(self):
         gold_obj = json.loads((GOLD_ROOT / "seed_zh_0007.json").read_text())
         prediction_obj = json.loads((GOLD_ROOT / "seed_zh_0007.json").read_text())
