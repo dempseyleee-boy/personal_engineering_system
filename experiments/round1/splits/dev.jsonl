@@ -1,1 +1,3 @@
-
+{"task_id":"seed_zh_0001","source_text":"部署约束：不要在高峰期重启 payment-service。将 retries 设置为 3，并记录到 deploy.log。计划操作时间为 2026-04-27T10:00:00Z。","primary_language":"zh","difficulty":"easy"}
+{"task_id":"seed_en_0002","source_text":"Incident summary: api-gateway returned 503 after config_version was set to v2.1. Roll back config_version to v2.0 before 2026-04-28T02:30:00Z and save the error trace in incident.log.","primary_language":"en","difficulty":"easy"}
+{"task_id":"seed_mix_0003","source_text":"Runbook note: 在 prod 环境把 timeout_ms 调到 1500 ms, then restart order-service, but do not touch billing-service. 结果写入 runbook.md，执行时间 2026-05-01T09:15:00Z。","primary_language":"mixed","difficulty":"medium"}
