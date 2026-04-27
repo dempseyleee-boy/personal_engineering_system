@@ -1,0 +1,1 @@
+变更要求：若 p99 超过 250 ms，不要继续扩容 auth-service。把 feature_flag_login_v2 设为 false，保留 previous_config.yaml，并在 2026-05-07T03:00:00Z 前通知 platform-team。

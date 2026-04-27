@@ -1,0 +1,7 @@
+{
+  "task_id": "seed_en_0008",
+  "difficulty": "hard",
+  "primary_language": "en",
+  "contains_code_switching": false,
+  "phenomena": ["boolean_parameter", "privacy_constraint", "deadline_constraint", "artifact_extraction"]
+}

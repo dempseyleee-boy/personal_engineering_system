@@ -1,0 +1,1 @@
+Runbook excerpt: In qa, pin model_version to 2026.04, set retry_backoff_ms to 750, and do not promote summarizer-service if rouge_l drops below 0.31. Save comparison output in qa_compare.csv before 2026-05-11T08:10:00Z.

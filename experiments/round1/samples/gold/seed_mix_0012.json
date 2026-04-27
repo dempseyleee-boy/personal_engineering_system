@@ -1,0 +1,71 @@
+{
+  "task_id": "seed_mix_0012",
+  "source_text": "Checklist: 对 billing-api 开启 canary_mode=true，并把 timeout_sec 保持在 45。If error_budget_remaining falls under 15 %, freeze rollout and attach notes to billing_canary.md. 执行记录时间 2026-05-12T05:55:00Z。",
+  "language_profile": {
+    "primary_language": "mixed",
+    "contains_code_switching": true
+  },
+  "extraction": {
+    "doc_type": "deployment_instruction",
+    "entities": [
+      {
+        "name": "billing-api",
+        "type": "service",
+        "surface_form": "billing-api"
+      },
+      {
+        "name": "billing_canary.md",
+        "type": "file",
+        "surface_form": "billing_canary.md"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "canary_mode",
+        "value": true
+      },
+      {
+        "key": "timeout_sec",
+        "value": 45
+      }
+    ],
+    "constraints": [
+      "If error_budget_remaining falls under 15%, freeze the rollout.",
+      "Attach notes to billing_canary.md."
+    ],
+    "actions": [
+      {
+        "action_text": "enable canary_mode for billing-api",
+        "status": "required"
+      },
+      {
+        "action_text": "keep timeout_sec at 45",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "billing_canary.md",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-12T05:55:00Z",
+        "normalized_iso8601": "2026-05-12T05:55:00Z"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "45",
+        "value": 45
+      },
+      {
+        "value_text": "15 %",
+        "value": 15,
+        "unit": "%",
+        "metric_name": "error_budget_remaining"
+      }
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "task_id": "seed_en_0011",
+  "difficulty": "hard",
+  "primary_language": "en",
+  "contains_code_switching": false,
+  "phenomena": ["string_parameter", "numeric_threshold", "conditional_constraint", "deadline_constraint"]
+}

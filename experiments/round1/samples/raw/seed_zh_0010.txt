@@ -1,0 +1,1 @@
+故障处理：将 worker_pool_size 保持为 12，不要重建 metrics-table；如果 backlog 超过 5000，则暂停 sync-job，并把告警发送到 oncall.md。计划窗口 2026-05-10T22:45:00Z。

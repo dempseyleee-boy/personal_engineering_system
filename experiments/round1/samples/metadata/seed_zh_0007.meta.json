@@ -1,0 +1,7 @@
+{
+  "task_id": "seed_zh_0007",
+  "difficulty": "hard",
+  "primary_language": "zh",
+  "contains_code_switching": true,
+  "phenomena": ["code_switching", "conditional_constraint", "deadline_constraint", "boolean_parameter"]
+}

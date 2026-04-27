@@ -1,0 +1,1 @@
+Ops memo: 在 eu-west 环境把 cache_ttl_sec 从 900 调到 600，然后 run verify_cache.sh。Do not purge session-store unless error_rate > 0.02. 结果追加到 cache_audit.log，截止 2026-05-09T11:30:00Z。

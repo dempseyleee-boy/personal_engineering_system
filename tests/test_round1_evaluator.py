@@ -131,7 +131,7 @@ class Round1EvaluatorTests(unittest.TestCase):
         task_ids = load_task_ids_from_split(split_path)
 
         self.assertEqual(task_ids[:3], ["seed_zh_0001", "seed_en_0002", "seed_mix_0003"])
-        self.assertEqual(len(task_ids), 6)
+        self.assertEqual(len(task_ids), 12)
 
     def test_directory_scoring_can_use_split_manifest(self):
         with tempfile.TemporaryDirectory() as temp_dir:

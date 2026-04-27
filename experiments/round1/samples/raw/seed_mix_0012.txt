@@ -1,0 +1,1 @@
+Checklist: 对 billing-api 开启 canary_mode=true，并把 timeout_sec 保持在 45。If error_budget_remaining falls under 15 %, freeze rollout and attach notes to billing_canary.md. 执行记录时间 2026-05-12T05:55:00Z。

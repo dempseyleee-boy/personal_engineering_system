@@ -1,0 +1,1 @@
+Spec fragment: enable shadow_mode=true for recommender-api, keep max_batch_size at 64, and never write raw_email to audit.db. Export the dry-run output to shadow_report.json by 2026-05-08T16:20:00Z.

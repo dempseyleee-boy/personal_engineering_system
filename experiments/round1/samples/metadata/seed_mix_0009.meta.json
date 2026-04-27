@@ -1,0 +1,7 @@
+{
+  "task_id": "seed_mix_0009",
+  "difficulty": "hard",
+  "primary_language": "mixed",
+  "contains_code_switching": true,
+  "phenomena": ["code_switching", "parameter_update", "conditional_constraint", "deadline_constraint"]
+}
