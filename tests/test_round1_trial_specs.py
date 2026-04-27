@@ -41,7 +41,12 @@ class Round1TrialSpecsTests(unittest.TestCase):
             if job["group_name"] == "treatment_b":
                 self.assertEqual(
                     job["excluded_paths"],
-                    ["experiments/round1/samples/gold", "experiments/round1/runs"],
+                    [
+                        "experiments/round1/samples/gold",
+                        "experiments/round1/runs",
+                        "experiments/round1/eval",
+                        "tests",
+                    ],
                 )
 
     def test_execution_guide_mentions_all_job_ids(self):

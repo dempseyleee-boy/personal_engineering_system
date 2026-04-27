@@ -12,7 +12,7 @@
     },
     "treatment_b": {
       "mean_hard_fail_count": 0.0,
-      "mean_primary_score": 1.0,
+      "mean_primary_score": 0.523016,
       "run_count": 1
     }
   },
@@ -150,55 +150,55 @@
         {
           "hard_fail_reason": null,
           "primary_metrics": {
-            "action_f1": 1.0,
-            "artifact_f1": 1.0,
-            "constraint_f1": 1.0,
-            "entity_f1": 1.0,
+            "action_f1": 0.0,
+            "artifact_f1": 0.0,
+            "constraint_f1": 0.0,
+            "entity_f1": 0.5,
             "field_presence_accuracy": 1.0,
             "numeric_normalization_accuracy": 1.0,
-            "parameter_f1": 1.0,
+            "parameter_f1": 0.0,
             "schema_validity": 1.0,
             "timestamp_accuracy": 1.0
           },
-          "primary_score": 1.0,
+          "primary_score": 0.425,
           "task_id": "seed_zh_0001"
         },
         {
           "hard_fail_reason": null,
           "primary_metrics": {
-            "action_f1": 1.0,
-            "artifact_f1": 1.0,
-            "constraint_f1": 1.0,
-            "entity_f1": 1.0,
-            "field_presence_accuracy": 1.0,
+            "action_f1": 0.0,
+            "artifact_f1": 0.0,
+            "constraint_f1": 0.0,
+            "entity_f1": 0.5,
+            "field_presence_accuracy": 0.857143,
             "numeric_normalization_accuracy": 1.0,
             "parameter_f1": 1.0,
             "schema_validity": 1.0,
             "timestamp_accuracy": 1.0
           },
-          "primary_score": 1.0,
+          "primary_score": 0.560714,
           "task_id": "seed_en_0002"
         },
         {
           "hard_fail_reason": null,
           "primary_metrics": {
-            "action_f1": 1.0,
-            "artifact_f1": 1.0,
+            "action_f1": 0.0,
+            "artifact_f1": 0.0,
             "constraint_f1": 1.0,
-            "entity_f1": 1.0,
+            "entity_f1": 0.888889,
             "field_presence_accuracy": 1.0,
             "numeric_normalization_accuracy": 1.0,
-            "parameter_f1": 1.0,
+            "parameter_f1": 0.0,
             "schema_validity": 1.0,
             "timestamp_accuracy": 1.0
           },
-          "primary_score": 1.0,
+          "primary_score": 0.583333,
           "task_id": "seed_mix_0003"
         }
       ],
       "summary": {
         "hard_fail_count": 0,
-        "mean_primary_score": 1.0,
+        "mean_primary_score": 0.523016,
         "missing_prediction_count": 0,
         "sample_count": 3,
         "scored_count": 3

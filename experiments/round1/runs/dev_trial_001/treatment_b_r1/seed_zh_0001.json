@@ -3,7 +3,8 @@
   "source_text": "部署约束：不要在高峰期重启 payment-service。将 retries 设置为 3，并记录到 deploy.log。计划操作时间为 2026-04-27T10:00:00Z。",
   "language_profile": {
     "primary_language": "zh",
-    "contains_code_switching": true
+    "contains_code_switching": true,
+    "script_notes": "Chinese text with embedded English technical identifiers."
   },
   "extraction": {
     "doc_type": "deployment_instruction",
@@ -11,38 +12,50 @@
       {
         "name": "payment-service",
         "type": "service",
-        "surface_form": "payment-service"
+        "surface_form": "payment-service",
+        "normalized_name": "payment-service"
+      },
+      {
+        "name": "retries",
+        "type": "field",
+        "surface_form": "retries",
+        "normalized_name": "retries"
+      },
+      {
+        "name": "deploy.log",
+        "type": "file",
+        "surface_form": "deploy.log",
+        "normalized_name": "deploy.log"
       }
     ],
     "parameters": [
       {
         "key": "retries",
-        "value": 3
+        "value": "3"
       }
     ],
     "constraints": [
-      "Do not restart during peak traffic."
+      "不要在高峰期重启 payment-service"
     ],
     "actions": [
       {
-        "action_text": "set retries to 3",
-        "status": "required"
+        "action_text": "将 retries 设置为 3"
       },
       {
-        "action_text": "record to deploy.log",
-        "status": "required"
+        "action_text": "记录到 deploy.log"
       }
     ],
     "artifacts": [
       {
         "artifact_name": "deploy.log",
-        "artifact_type": "file"
+        "artifact_type": "log"
       }
     ],
     "timestamps": [
       {
         "text": "2026-04-27T10:00:00Z",
-        "normalized_iso8601": "2026-04-27T10:00:00Z"
+        "normalized_iso8601": "2026-04-27T10:00:00Z",
+        "timezone": "UTC"
       }
     ],
     "numeric_values": [

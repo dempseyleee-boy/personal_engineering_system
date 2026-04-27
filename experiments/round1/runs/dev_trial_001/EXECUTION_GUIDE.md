@@ -60,6 +60,8 @@ Allowed inputs:
 - the repository snapshot rooted at `.`, excluding:
   - `experiments/round1/samples/gold/`
   - `experiments/round1/runs/`
+  - `experiments/round1/eval/`
+  - `tests/`
   - generated score reports
 
 ## Output Paths
@@ -124,21 +126,21 @@ Allowed inputs:
    - prompt: `experiments/round1/prompts/treatment_b.md`
    - output: `experiments/round1/runs/dev_trial_001/treatment_b_r1/seed_zh_0001.json`
    - provided repo root: `.`
-   - excluded paths: `experiments/round1/samples/gold/`, `experiments/round1/runs/`
+   - excluded paths: `experiments/round1/samples/gold/`, `experiments/round1/runs/`, `experiments/round1/eval/`, `tests/`
 
 8. `treatment_b_r1_seed_en_0002`
    - source: `experiments/round1/samples/raw/seed_en_0002.txt`
    - prompt: `experiments/round1/prompts/treatment_b.md`
    - output: `experiments/round1/runs/dev_trial_001/treatment_b_r1/seed_en_0002.json`
    - provided repo root: `.`
-   - excluded paths: `experiments/round1/samples/gold/`, `experiments/round1/runs/`
+   - excluded paths: `experiments/round1/samples/gold/`, `experiments/round1/runs/`, `experiments/round1/eval/`, `tests/`
 
 9. `treatment_b_r1_seed_mix_0003`
    - source: `experiments/round1/samples/raw/seed_mix_0003.txt`
    - prompt: `experiments/round1/prompts/treatment_b.md`
    - output: `experiments/round1/runs/dev_trial_001/treatment_b_r1/seed_mix_0003.json`
    - provided repo root: `.`
-   - excluded paths: `experiments/round1/samples/gold/`, `experiments/round1/runs/`
+   - excluded paths: `experiments/round1/samples/gold/`, `experiments/round1/runs/`, `experiments/round1/eval/`, `tests/`
 
 ## Minimal Operator Loop
 

@@ -3,7 +3,8 @@
   "source_text": "Incident summary: api-gateway returned 503 after config_version was set to v2.1. Roll back config_version to v2.0 before 2026-04-28T02:30:00Z and save the error trace in incident.log.",
   "language_profile": {
     "primary_language": "en",
-    "contains_code_switching": false
+    "contains_code_switching": false,
+    "script_notes": "English incident summary with technical identifiers."
   },
   "extraction": {
     "doc_type": "incident_summary",
@@ -11,7 +12,20 @@
       {
         "name": "api-gateway",
         "type": "service",
-        "surface_form": "api-gateway"
+        "surface_form": "api-gateway",
+        "normalized_name": "api-gateway"
+      },
+      {
+        "name": "config_version",
+        "type": "field",
+        "surface_form": "config_version",
+        "normalized_name": "config_version"
+      },
+      {
+        "name": "incident.log",
+        "type": "file",
+        "surface_form": "incident.log",
+        "normalized_name": "incident.log"
       }
     ],
     "parameters": [
@@ -24,29 +38,26 @@
         "value": "v2.0"
       }
     ],
-    "constraints": [
-      "Complete the rollback before 2026-04-28T02:30:00Z."
-    ],
+    "constraints": [],
     "actions": [
       {
-        "action_text": "roll back config_version to v2.0",
-        "status": "required"
+        "action_text": "Roll back config_version to v2.0"
       },
       {
-        "action_text": "save the error trace in incident.log",
-        "status": "required"
+        "action_text": "save the error trace in incident.log"
       }
     ],
     "artifacts": [
       {
         "artifact_name": "incident.log",
-        "artifact_type": "file"
+        "artifact_type": "log"
       }
     ],
     "timestamps": [
       {
         "text": "2026-04-28T02:30:00Z",
-        "normalized_iso8601": "2026-04-28T02:30:00Z"
+        "normalized_iso8601": "2026-04-28T02:30:00Z",
+        "timezone": "UTC"
       }
     ],
     "numeric_values": [
