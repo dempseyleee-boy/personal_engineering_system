@@ -1,0 +1,89 @@
+{
+  "task_id": "seed_mix_0003",
+  "source_text": "Runbook note: 在 prod 环境把 timeout_ms 调到 1500 ms, then restart order-service, but do not touch billing-service. 结果写入 runbook.md，执行时间 2026-05-01T09:15:00Z。",
+  "language_profile": {
+    "primary_language": "mixed",
+    "contains_code_switching": true,
+    "script_notes": "Chinese and English mixed within the same operational note, with Latin service names and ISO-8601 timestamp."
+  },
+  "extraction": {
+    "doc_type": "runbook",
+    "entities": [
+      {
+        "name": "prod",
+        "type": "environment",
+        "surface_form": "prod"
+      },
+      {
+        "name": "timeout_ms",
+        "type": "field",
+        "surface_form": "timeout_ms"
+      },
+      {
+        "name": "order-service",
+        "type": "service",
+        "surface_form": "order-service"
+      },
+      {
+        "name": "billing-service",
+        "type": "service",
+        "surface_form": "billing-service"
+      },
+      {
+        "name": "runbook.md",
+        "type": "file",
+        "surface_form": "runbook.md"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "timeout_ms",
+        "value": 1500,
+        "unit": "ms",
+        "normalized_value": 1500
+      }
+    ],
+    "constraints": [
+      "Do not touch billing-service."
+    ],
+    "actions": [
+      {
+        "action_text": "Set timeout_ms to 1500 ms in prod.",
+        "target": "timeout_ms",
+        "status": "required"
+      },
+      {
+        "action_text": "Restart order-service.",
+        "target": "order-service",
+        "status": "required"
+      },
+      {
+        "action_text": "Write the result to runbook.md.",
+        "target": "runbook.md",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "runbook.md",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-01T09:15:00Z",
+        "normalized_iso8601": "2026-05-01T09:15:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "1500 ms",
+        "value": 1500,
+        "unit": "ms",
+        "metric_name": "timeout_ms"
+      }
+    ],
+    "summary": "Mixed-language runbook note for the prod environment directing timeout_ms to be set to 1500 ms, order-service to be restarted, billing-service left untouched, and results saved to runbook.md at the stated UTC time."
+  }
+}

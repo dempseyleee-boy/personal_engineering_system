@@ -1,0 +1,69 @@
+{
+  "task_id": "seed_zh_0001",
+  "source_text": "部署约束：不要在高峰期重启 payment-service。将 retries 设置为 3，并记录到 deploy.log。计划操作时间为 2026-04-27T10:00:00Z。",
+  "language_profile": {
+    "primary_language": "zh",
+    "contains_code_switching": true
+  },
+  "extraction": {
+    "doc_type": "deployment_instruction",
+    "entities": [
+      {
+        "name": "payment-service",
+        "type": "service",
+        "surface_form": "payment-service"
+      },
+      {
+        "name": "retries",
+        "type": "field",
+        "surface_form": "retries"
+      },
+      {
+        "name": "deploy.log",
+        "type": "file",
+        "surface_form": "deploy.log"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "retries",
+        "value": 3,
+        "normalized_value": 3
+      }
+    ],
+    "constraints": [
+      "不要在高峰期重启 payment-service"
+    ],
+    "actions": [
+      {
+        "action_text": "将 retries 设置为 3",
+        "target": "retries",
+        "status": "required"
+      },
+      {
+        "action_text": "记录到 deploy.log",
+        "target": "deploy.log",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "deploy.log",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-04-27T10:00:00Z",
+        "normalized_iso8601": "2026-04-27T10:00:00Z"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "3",
+        "value": 3,
+        "metric_name": "retries"
+      }
+    ]
+  }
+}

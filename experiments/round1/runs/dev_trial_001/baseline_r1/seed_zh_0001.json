@@ -1,0 +1,77 @@
+{
+  "task_id": "seed_zh_0001",
+  "source_text": "部署约束：不要在高峰期重启 payment-service。将 retries 设置为 3，并记录到 deploy.log。计划操作时间为 2026-04-27T10:00:00Z。",
+  "language_profile": {
+    "primary_language": "zh",
+    "contains_code_switching": true,
+    "script_notes": "Simplified Chinese with embedded English technical tokens and ISO-8601 timestamp."
+  },
+  "extraction": {
+    "doc_type": "deployment_instruction",
+    "entities": [
+      {
+        "name": "payment-service",
+        "type": "service",
+        "surface_form": "payment-service"
+      },
+      {
+        "name": "retries",
+        "type": "field",
+        "surface_form": "retries"
+      },
+      {
+        "name": "deploy.log",
+        "type": "file",
+        "surface_form": "deploy.log"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "retries",
+        "value": 3,
+        "normalized_value": 3
+      }
+    ],
+    "constraints": [
+      "Do not restart payment-service during peak hours."
+    ],
+    "actions": [
+      {
+        "action_text": "Set retries to 3.",
+        "target": "retries",
+        "status": "required"
+      },
+      {
+        "action_text": "Record the deployment details to deploy.log.",
+        "target": "deploy.log",
+        "status": "required"
+      },
+      {
+        "action_text": "Restart payment-service.",
+        "target": "payment-service",
+        "status": "planned"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "deploy.log",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-04-27T10:00:00Z",
+        "normalized_iso8601": "2026-04-27T10:00:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "3",
+        "value": 3,
+        "metric_name": "retries"
+      }
+    ],
+    "summary": "Deployment instruction to avoid restarting payment-service during peak hours, set retries to 3, and log the operation in deploy.log at the scheduled UTC time."
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "task_id": "seed_en_0002",
+  "source_text": "Incident summary: api-gateway returned 503 after config_version was set to v2.1. Roll back config_version to v2.0 before 2026-04-28T02:30:00Z and save the error trace in incident.log.",
+  "language_profile": {
+    "primary_language": "en",
+    "contains_code_switching": false,
+    "script_notes": "English incident note with configuration tokens, version strings, and ISO-8601 timestamp."
+  },
+  "extraction": {
+    "doc_type": "incident_summary",
+    "entities": [
+      {
+        "name": "api-gateway",
+        "type": "service",
+        "surface_form": "api-gateway"
+      },
+      {
+        "name": "config_version",
+        "type": "field",
+        "surface_form": "config_version"
+      },
+      {
+        "name": "incident.log",
+        "type": "file",
+        "surface_form": "incident.log"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "config_version_current",
+        "value": "v2.1",
+        "normalized_value": "v2.1"
+      },
+      {
+        "key": "config_version_target",
+        "value": "v2.0",
+        "normalized_value": "v2.0"
+      },
+      {
+        "key": "http_status",
+        "value": 503,
+        "normalized_value": 503
+      }
+    ],
+    "constraints": [
+      "Roll back config_version before 2026-04-28T02:30:00Z."
+    ],
+    "actions": [
+      {
+        "action_text": "Roll back config_version to v2.0.",
+        "target": "config_version",
+        "status": "required"
+      },
+      {
+        "action_text": "Save the error trace in incident.log.",
+        "target": "incident.log",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "incident.log",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-04-28T02:30:00Z",
+        "normalized_iso8601": "2026-04-28T02:30:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "503",
+        "value": 503,
+        "metric_name": "http_status"
+      }
+    ],
+    "summary": "Incident summary stating that api-gateway returned HTTP 503 after config_version changed to v2.1, with instructions to roll back to v2.0 and store the trace in incident.log before the UTC deadline."
+  }
+}

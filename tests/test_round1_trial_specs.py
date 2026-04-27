@@ -38,6 +38,11 @@ class Round1TrialSpecsTests(unittest.TestCase):
 
             if "provided_repo_root" in job:
                 self.assertTrue((REPO_ROOT / job["provided_repo_root"]).exists(), job["provided_repo_root"])
+            if job["group_name"] == "treatment_b":
+                self.assertEqual(
+                    job["excluded_paths"],
+                    ["experiments/round1/samples/gold", "experiments/round1/runs"],
+                )
 
     def test_execution_guide_mentions_all_job_ids(self):
         guide_text = GUIDE_PATH.read_text()
