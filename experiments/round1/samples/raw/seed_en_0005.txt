@@ -1,0 +1,1 @@
+API note: For /v1/orders, set X-Retry-Count to 2, keep timeout at 30 s, and do not send requests without request_id. Archive failures in gateway.log before 2026-05-04T18:45:00Z.

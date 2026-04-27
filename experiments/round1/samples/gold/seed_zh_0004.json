@@ -1,0 +1,87 @@
+{
+  "task_id": "seed_zh_0004",
+  "source_text": "实验记录：在 staging 环境复现 cache miss 问题。把 batch_size 从 32 调到 16，保持 learning_rate 为 0.001，不要删除 eval.csv。需要在 2026-05-03T14:00:00Z 前把结果同步给 ml-team。",
+  "language_profile": {
+    "primary_language": "zh",
+    "contains_code_switching": true
+  },
+  "extraction": {
+    "doc_type": "experiment_note",
+    "entities": [
+      {
+        "name": "staging",
+        "type": "environment",
+        "surface_form": "staging"
+      },
+      {
+        "name": "eval.csv",
+        "type": "file",
+        "surface_form": "eval.csv"
+      },
+      {
+        "name": "ml-team",
+        "type": "team",
+        "surface_form": "ml-team"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "batch_size",
+        "value": 32
+      },
+      {
+        "key": "batch_size",
+        "value": 16
+      },
+      {
+        "key": "learning_rate",
+        "value": 0.001
+      }
+    ],
+    "constraints": [
+      "Do not delete eval.csv.",
+      "Keep learning_rate at 0.001.",
+      "Sync the result before 2026-05-03T14:00:00Z."
+    ],
+    "actions": [
+      {
+        "action_text": "reproduce the cache miss issue in staging",
+        "status": "required"
+      },
+      {
+        "action_text": "set batch_size to 16",
+        "status": "required"
+      },
+      {
+        "action_text": "sync the result to ml-team",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "eval.csv",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-03T14:00:00Z",
+        "normalized_iso8601": "2026-05-03T14:00:00Z"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "32",
+        "value": 32
+      },
+      {
+        "value_text": "16",
+        "value": 16
+      },
+      {
+        "value_text": "0.001",
+        "value": 0.001
+      }
+    ]
+  }
+}

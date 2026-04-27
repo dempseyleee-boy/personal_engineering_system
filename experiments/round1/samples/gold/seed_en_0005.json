@@ -1,0 +1,80 @@
+{
+  "task_id": "seed_en_0005",
+  "source_text": "API note: For /v1/orders, set X-Retry-Count to 2, keep timeout at 30 s, and do not send requests without request_id. Archive failures in gateway.log before 2026-05-04T18:45:00Z.",
+  "language_profile": {
+    "primary_language": "en",
+    "contains_code_switching": false
+  },
+  "extraction": {
+    "doc_type": "api_note",
+    "entities": [
+      {
+        "name": "/v1/orders",
+        "type": "api",
+        "surface_form": "/v1/orders"
+      },
+      {
+        "name": "request_id",
+        "type": "field",
+        "surface_form": "request_id"
+      },
+      {
+        "name": "gateway.log",
+        "type": "file",
+        "surface_form": "gateway.log"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "X-Retry-Count",
+        "value": 2
+      },
+      {
+        "key": "timeout",
+        "value": 30,
+        "unit": "s"
+      }
+    ],
+    "constraints": [
+      "Do not send requests without request_id.",
+      "Archive failures before 2026-05-04T18:45:00Z."
+    ],
+    "actions": [
+      {
+        "action_text": "set X-Retry-Count to 2",
+        "status": "required"
+      },
+      {
+        "action_text": "keep timeout at 30 s",
+        "status": "required"
+      },
+      {
+        "action_text": "archive failures in gateway.log",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "gateway.log",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-04T18:45:00Z",
+        "normalized_iso8601": "2026-05-04T18:45:00Z"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "2",
+        "value": 2
+      },
+      {
+        "value_text": "30 s",
+        "value": 30,
+        "unit": "s"
+      }
+    ]
+  }
+}

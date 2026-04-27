@@ -1,0 +1,1 @@
+Deploy checklist: 先在 canary 环境把 replica_count 增加到 5，再运行 smoke-test.sh。If p95 latency exceeds 220 ms, stop rollout and notify ops-team in Slack. 相关截图保存到 canary_report.png，截止时间 2026-05-06T07:00:00Z。

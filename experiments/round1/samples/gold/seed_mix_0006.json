@@ -1,0 +1,91 @@
+{
+  "task_id": "seed_mix_0006",
+  "source_text": "Deploy checklist: 先在 canary 环境把 replica_count 增加到 5，再运行 smoke-test.sh。If p95 latency exceeds 220 ms, stop rollout and notify ops-team in Slack. 相关截图保存到 canary_report.png，截止时间 2026-05-06T07:00:00Z。",
+  "language_profile": {
+    "primary_language": "mixed",
+    "contains_code_switching": true
+  },
+  "extraction": {
+    "doc_type": "deployment_instruction",
+    "entities": [
+      {
+        "name": "canary",
+        "type": "environment",
+        "surface_form": "canary"
+      },
+      {
+        "name": "smoke-test.sh",
+        "type": "file",
+        "surface_form": "smoke-test.sh"
+      },
+      {
+        "name": "ops-team",
+        "type": "team",
+        "surface_form": "ops-team"
+      },
+      {
+        "name": "Slack",
+        "type": "other",
+        "surface_form": "Slack"
+      },
+      {
+        "name": "canary_report.png",
+        "type": "file",
+        "surface_form": "canary_report.png"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "replica_count",
+        "value": 5
+      }
+    ],
+    "constraints": [
+      "If p95 latency exceeds 220 ms, stop the rollout.",
+      "If p95 latency exceeds 220 ms, notify ops-team in Slack.",
+      "Save the related screenshots to canary_report.png by 2026-05-06T07:00:00Z."
+    ],
+    "actions": [
+      {
+        "action_text": "increase replica_count to 5 in canary",
+        "status": "required"
+      },
+      {
+        "action_text": "run smoke-test.sh",
+        "status": "required"
+      },
+      {
+        "action_text": "save the related screenshots to canary_report.png",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "canary_report.png",
+        "artifact_type": "file"
+      },
+      {
+        "artifact_name": "Slack",
+        "artifact_type": "other"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-06T07:00:00Z",
+        "normalized_iso8601": "2026-05-06T07:00:00Z"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "5",
+        "value": 5
+      },
+      {
+        "value_text": "220 ms",
+        "value": 220,
+        "unit": "ms",
+        "metric_name": "p95 latency"
+      }
+    ]
+  }
+}

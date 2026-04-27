@@ -1,0 +1,1 @@
+实验记录：在 staging 环境复现 cache miss 问题。把 batch_size 从 32 调到 16，保持 learning_rate 为 0.001，不要删除 eval.csv。需要在 2026-05-03T14:00:00Z 前把结果同步给 ml-team。
