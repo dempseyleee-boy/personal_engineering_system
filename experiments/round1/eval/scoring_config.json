@@ -13,6 +13,7 @@
     "numeric_normalization_accuracy"
   ],
   "secondary_metrics": [
+    "action_semantic_f1",
     "hallucination_rate",
     "critical_error_rate",
     "score_variance",

@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from experiments.round1.eval.evaluator import (
+    score_prediction,
     load_task_ids_from_split,
     score_prediction_directory,
     score_prediction_file,
@@ -149,6 +150,42 @@ class Round1EvaluatorTests(unittest.TestCase):
 
         self.assertEqual(result["summary"]["sample_count"], 2)
         self.assertEqual(result["summary"]["mean_primary_score"], 1.0)
+
+    def test_action_semantic_metric_matches_equivalent_phrasings(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_zh_0007.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_zh_0007.json").read_text())
+        prediction_obj["extraction"]["actions"] = [
+            {"action_text": "把 feature_flag_login_v2 设为 false"},
+            {"action_text": "保留 previous_config.yaml"},
+            {"action_text": "在 2026-05-07T03:00:00Z 前通知 platform-team"},
+        ]
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertEqual(result["primary_metrics"]["action_f1"], 0.0)
+        self.assertEqual(result["secondary_metrics"]["action_semantic_f1"], 1.0)
+
+    def test_action_semantic_metric_penalizes_wrong_polarity(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_zh_0007.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_zh_0007.json").read_text())
+        prediction_obj["extraction"]["actions"] = [
+            {"action_text": "把 feature_flag_login_v2 设为 true"},
+            {"action_text": "保留 previous_config.yaml"},
+            {"action_text": "在 2026-05-07T03:00:00Z 前通知 platform-team"},
+        ]
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertLess(result["secondary_metrics"]["action_semantic_f1"], 1.0)
+        self.assertGreater(result["secondary_metrics"]["action_semantic_f1"], 0.0)
 
 
 if __name__ == "__main__":

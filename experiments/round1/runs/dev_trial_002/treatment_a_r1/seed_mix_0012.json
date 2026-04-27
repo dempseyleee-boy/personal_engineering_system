@@ -1,0 +1,94 @@
+{
+  "task_id": "seed_mix_0012",
+  "source_text": "Checklist: 对 billing-api 开启 canary_mode=true，并把 timeout_sec 保持在 45。If error_budget_remaining falls under 15 %, freeze rollout and attach notes to billing_canary.md. 执行记录时间 2026-05-12T05:55:00Z。",
+  "language_profile": {
+    "primary_language": "mixed",
+    "contains_code_switching": true,
+    "script_notes": "Mixed Chinese and English deployment checklist with API, config keys, threshold, file, and timestamp."
+  },
+  "extraction": {
+    "doc_type": "deployment_instruction",
+    "entities": [
+      {
+        "name": "billing-api",
+        "type": "api",
+        "surface_form": "billing-api"
+      },
+      {
+        "name": "canary_mode",
+        "type": "field",
+        "surface_form": "canary_mode"
+      },
+      {
+        "name": "timeout_sec",
+        "type": "field",
+        "surface_form": "timeout_sec"
+      },
+      {
+        "name": "error_budget_remaining",
+        "type": "metric",
+        "surface_form": "error_budget_remaining"
+      },
+      {
+        "name": "billing_canary.md",
+        "type": "file",
+        "surface_form": "billing_canary.md"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "canary_mode",
+        "value": true,
+        "normalized_value": true
+      },
+      {
+        "key": "timeout_sec",
+        "value": 45,
+        "normalized_value": 45
+      }
+    ],
+    "constraints": [
+      "If error_budget_remaining falls under 15 %, freeze rollout."
+    ],
+    "actions": [
+      {
+        "action_text": "对 billing-api 开启 canary_mode=true"
+      },
+      {
+        "action_text": "把 timeout_sec 保持在 45"
+      },
+      {
+        "action_text": "freeze rollout"
+      },
+      {
+        "action_text": "attach notes to billing_canary.md"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "billing_canary.md",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-12T05:55:00Z",
+        "normalized_iso8601": "2026-05-12T05:55:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "45",
+        "value": 45,
+        "metric_name": "timeout_sec"
+      },
+      {
+        "value_text": "15 %",
+        "value": 15,
+        "unit": "%",
+        "metric_name": "error_budget_remaining"
+      }
+    ]
+  }
+}

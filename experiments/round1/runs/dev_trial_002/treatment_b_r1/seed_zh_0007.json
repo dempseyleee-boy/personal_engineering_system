@@ -1,0 +1,81 @@
+{
+  "task_id": "seed_zh_0007",
+  "source_text": "变更要求：若 p99 超过 250 ms，不要继续扩容 auth-service。把 feature_flag_login_v2 设为 false，保留 previous_config.yaml，并在 2026-05-07T03:00:00Z 前通知 platform-team。",
+  "language_profile": {
+    "primary_language": "zh",
+    "contains_code_switching": true,
+    "script_notes": "Chinese sentence with English technical identifiers and ISO-8601 timestamp."
+  },
+  "extraction": {
+    "doc_type": "deployment_instruction",
+    "entities": [
+      {
+        "name": "p99",
+        "type": "metric",
+        "surface_form": "p99"
+      },
+      {
+        "name": "auth-service",
+        "type": "service",
+        "surface_form": "auth-service"
+      },
+      {
+        "name": "feature_flag_login_v2",
+        "type": "field",
+        "surface_form": "feature_flag_login_v2"
+      },
+      {
+        "name": "previous_config.yaml",
+        "type": "file",
+        "surface_form": "previous_config.yaml"
+      },
+      {
+        "name": "platform-team",
+        "type": "team",
+        "surface_form": "platform-team"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "feature_flag_login_v2",
+        "value": false
+      }
+    ],
+    "constraints": [
+      "若 p99 超过 250 ms，不要继续扩容 auth-service。"
+    ],
+    "actions": [
+      {
+        "action_text": "把 feature_flag_login_v2 设为 false"
+      },
+      {
+        "action_text": "保留 previous_config.yaml"
+      },
+      {
+        "action_text": "在 2026-05-07T03:00:00Z 前通知 platform-team"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "previous_config.yaml",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-07T03:00:00Z",
+        "normalized_iso8601": "2026-05-07T03:00:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "250 ms",
+        "value": 250,
+        "unit": "ms",
+        "metric_name": "p99"
+      }
+    ],
+    "summary": "Deployment change request with a p99-based scaling prohibition, a feature flag change, file retention, and a team notification deadline."
+  }
+}

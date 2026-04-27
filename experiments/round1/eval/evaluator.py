@@ -1,5 +1,6 @@
 import argparse
 import json
+import re
 from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
@@ -49,6 +50,10 @@ def _f1_from_sets(gold_items, pred_items):
     if precision + recall == 0:
         return 0.0
     return 2 * precision * recall / (precision + recall)
+
+
+def _empty_metrics(metric_names):
+    return {name: 0.0 for name in metric_names}
 
 
 def _presence_score(gold_extraction, pred_extraction):
@@ -148,9 +153,185 @@ def _normalize_numeric_values(items):
         for item in items
     ]
 
+_ISO_TIMESTAMP_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}t\d{2}:\d{2}:\d{2}z\b", re.IGNORECASE)
+_IDENTIFIER_RE = re.compile(r"[a-z0-9_./-]+")
+_NUMBER_RE = re.compile(r"\b\d+(?:\.\d+)?\b")
+_VERB_PATTERNS = [
+    ("notify", [r"\bnotify\b", r"\balert\b", r"通知", r"发送"]),
+    ("attach", [r"\battach\b", r"附加", r"附到"]),
+    ("append", [r"\bappend\b", r"追加"]),
+    ("export", [r"\bexport\b"]),
+    ("save", [r"\bsave\b"]),
+    ("run", [r"\brun\b", r"执行"]),
+    ("pause", [r"\bpause\b", r"暂停"]),
+    ("pin", [r"\bpin\b"]),
+    ("keep", [r"\bkeep\b", r"\bretain\b", r"保持", r"保留"]),
+    ("enable", [r"\benable\b", r"开启"]),
+    ("disable", [r"\bdisable\b", r"关闭"]),
+    ("set", [r"\bset\b", r"设为", r"调到", r"改到", r"设置"]),
+]
+_ACTION_STOPWORDS = {
+    "set",
+    "enable",
+    "disable",
+    "keep",
+    "retain",
+    "notify",
+    "alert",
+    "append",
+    "export",
+    "save",
+    "run",
+    "pin",
+    "attach",
+    "pause",
+    "freeze",
+    "the",
+    "to",
+    "for",
+    "in",
+    "if",
+    "before",
+    "result",
+    "output",
+    "notes",
+    "alert",
+    "send",
+    "and",
+    "true",
+    "false",
+    "required",
+    "optional",
+    "completed",
+    "planned",
+    "unknown",
+}
 
-def _empty_primary_metrics(metric_names):
-    return {name: 0.0 for name in metric_names}
+
+def _strip_timestamps(text):
+    return _ISO_TIMESTAMP_RE.sub(" ", text)
+
+
+def _action_verb_class(text):
+    normalized = _canonical_string(text)
+    for verb_class, patterns in _VERB_PATTERNS:
+        for pattern in patterns:
+            if re.search(pattern, normalized):
+                if verb_class == "set":
+                    if " false" in f" {normalized}" or re.search(r"设为 false|关闭", normalized):
+                        return "disable"
+                    if " true" in f" {normalized}" or re.search(r"设为 true|开启", normalized):
+                        return "enable"
+                return verb_class
+    return "other"
+
+
+def _action_polarity(text):
+    normalized = _canonical_string(text)
+    if re.search(r"\b(do not|don't|not)\b|不要|不得|不能|勿", normalized):
+        return "negative"
+    return "positive"
+
+
+def _action_identifiers(action):
+    text = _strip_timestamps(_canonical_string(action.get("action_text", "")))
+    target_text = _canonical_string(action.get("target", ""))
+    tokens = _IDENTIFIER_RE.findall(f"{text} {target_text}")
+    identifiers = []
+    for token in tokens:
+        if token in _ACTION_STOPWORDS:
+            continue
+        if token in {"t", "z"}:
+            continue
+        if token.isdigit():
+            continue
+        identifiers.append(token)
+    return sorted(set(identifiers))
+
+
+def _action_values(action):
+    text = _strip_timestamps(_canonical_string(action.get("action_text", "")))
+    values = set()
+    if re.search(r"\btrue\b|开启", text):
+        values.add("true")
+    if re.search(r"\bfalse\b|关闭", text):
+        values.add("false")
+    values.update(_NUMBER_RE.findall(text))
+    return sorted(values)
+
+
+def _action_signature(action):
+    return {
+        "verb_class": _action_verb_class(action.get("action_text", "")),
+        "polarity": _action_polarity(action.get("action_text", "")),
+        "identifiers": _action_identifiers(action),
+        "values": _action_values(action),
+    }
+
+
+def _overlap_score(left_items, right_items):
+    left = set(left_items)
+    right = set(right_items)
+    if not left and not right:
+        return 1.0
+    if not left or not right:
+        return 0.0
+    overlap = len(left & right)
+    precision = overlap / len(right)
+    recall = overlap / len(left)
+    if precision + recall == 0:
+        return 0.0
+    return 2 * precision * recall / (precision + recall)
+
+
+def _action_similarity(gold_action, pred_action):
+    gold_sig = _action_signature(gold_action)
+    pred_sig = _action_signature(pred_action)
+
+    if gold_sig["polarity"] != pred_sig["polarity"]:
+        return 0.0
+
+    verb_score = 1.0 if gold_sig["verb_class"] == pred_sig["verb_class"] else 0.0
+    if verb_score == 0.0:
+        return 0.0
+
+    identifier_score = _overlap_score(gold_sig["identifiers"], pred_sig["identifiers"])
+    if identifier_score == 0.0:
+        return 0.0
+
+    value_score = _overlap_score(gold_sig["values"], pred_sig["values"])
+    return round(0.5 * verb_score + 0.35 * identifier_score + 0.15 * value_score, 6)
+
+
+def _semantic_action_f1(gold_actions, pred_actions):
+    if not gold_actions and not pred_actions:
+        return 1.0
+    if not gold_actions or not pred_actions:
+        return 0.0
+
+    pairs = []
+    for gold_idx, gold_action in enumerate(gold_actions):
+        for pred_idx, pred_action in enumerate(pred_actions):
+            similarity = _action_similarity(gold_action, pred_action)
+            if similarity > 0.0:
+                pairs.append((similarity, gold_idx, pred_idx))
+    pairs.sort(reverse=True)
+
+    matched_gold = set()
+    matched_pred = set()
+    matched_sum = 0.0
+    for similarity, gold_idx, pred_idx in pairs:
+        if gold_idx in matched_gold or pred_idx in matched_pred:
+            continue
+        matched_gold.add(gold_idx)
+        matched_pred.add(pred_idx)
+        matched_sum += similarity
+
+    precision = matched_sum / len(pred_actions)
+    recall = matched_sum / len(gold_actions)
+    if precision + recall == 0:
+        return 0.0
+    return round(2 * precision * recall / (precision + recall), 6)
 
 
 def _weighted_sum(metrics, weights):
@@ -162,8 +343,10 @@ def _weighted_sum(metrics, weights):
 
 def score_prediction(repo_root: Path, gold_obj, prediction_obj):
     config, weights, validator = _load_runtime(repo_root)
-    metric_names = config["primary_metrics"]
-    metrics = _empty_primary_metrics(metric_names)
+    primary_metric_names = config["primary_metrics"]
+    secondary_metric_names = config["secondary_metrics"]
+    primary_metrics = _empty_metrics(primary_metric_names)
+    secondary_metrics = _empty_metrics(secondary_metric_names)
 
     hard_fail_reason = None
     if prediction_obj.get("task_id") != gold_obj.get("task_id"):
@@ -176,58 +359,65 @@ def score_prediction(repo_root: Path, gold_obj, prediction_obj):
     if hard_fail_reason == "wrong_task_id":
         return {
             "task_id": gold_obj["task_id"],
-            "primary_metrics": metrics,
+            "primary_metrics": primary_metrics,
+            "secondary_metrics": secondary_metrics,
             "primary_score": 0.0,
             "hard_fail_reason": hard_fail_reason,
         }
 
     if hard_fail_reason == "schema_invalid":
-        metrics["schema_validity"] = 0.0
+        primary_metrics["schema_validity"] = 0.0
         capped = config["hard_fail_rules"]["schema_invalid_caps_primary_score_at"]
         return {
             "task_id": gold_obj["task_id"],
-            "primary_metrics": metrics,
+            "primary_metrics": primary_metrics,
+            "secondary_metrics": secondary_metrics,
             "primary_score": capped,
             "hard_fail_reason": hard_fail_reason,
         }
 
-    metrics["schema_validity"] = 1.0
+    primary_metrics["schema_validity"] = 1.0
     gold_extraction = gold_obj["extraction"]
     pred_extraction = prediction_obj["extraction"]
-    metrics["field_presence_accuracy"] = _presence_score(gold_extraction, pred_extraction)
-    metrics["entity_f1"] = _f1_from_sets(
+    primary_metrics["field_presence_accuracy"] = _presence_score(gold_extraction, pred_extraction)
+    primary_metrics["entity_f1"] = _f1_from_sets(
         _normalize_entities(gold_extraction["entities"]),
         _normalize_entities(pred_extraction["entities"]),
     )
-    metrics["parameter_f1"] = _f1_from_sets(
+    primary_metrics["parameter_f1"] = _f1_from_sets(
         _normalize_parameters(gold_extraction["parameters"]),
         _normalize_parameters(pred_extraction["parameters"]),
     )
-    metrics["constraint_f1"] = _f1_from_sets(
+    primary_metrics["constraint_f1"] = _f1_from_sets(
         _normalize_constraints(gold_extraction["constraints"]),
         _normalize_constraints(pred_extraction["constraints"]),
     )
-    metrics["action_f1"] = _f1_from_sets(
+    primary_metrics["action_f1"] = _f1_from_sets(
         _normalize_actions(gold_extraction["actions"]),
         _normalize_actions(pred_extraction["actions"]),
     )
-    metrics["artifact_f1"] = _f1_from_sets(
+    secondary_metrics["action_semantic_f1"] = _semantic_action_f1(
+        gold_extraction["actions"],
+        pred_extraction["actions"],
+    )
+    primary_metrics["artifact_f1"] = _f1_from_sets(
         _normalize_artifacts(gold_extraction["artifacts"]),
         _normalize_artifacts(pred_extraction["artifacts"]),
     )
-    metrics["timestamp_accuracy"] = _f1_from_sets(
+    primary_metrics["timestamp_accuracy"] = _f1_from_sets(
         _normalize_timestamps(gold_extraction["timestamps"]),
         _normalize_timestamps(pred_extraction["timestamps"]),
     )
-    metrics["numeric_normalization_accuracy"] = _f1_from_sets(
+    primary_metrics["numeric_normalization_accuracy"] = _f1_from_sets(
         _normalize_numeric_values(gold_extraction["numeric_values"]),
         _normalize_numeric_values(pred_extraction["numeric_values"]),
     )
 
-    primary_score = _weighted_sum(metrics, weights)
+    primary_score = _weighted_sum(primary_metrics, weights)
     return {
         "task_id": gold_obj["task_id"],
-        "primary_metrics": {name: round(value, 6) for name, value in metrics.items()},
+        "primary_metrics": {name: round(value, 6) for name, value in primary_metrics.items()},
+        "secondary_metrics": {name: round(value, 6) for name, value in secondary_metrics.items()},
         "primary_score": primary_score,
         "hard_fail_reason": None,
     }
@@ -241,7 +431,8 @@ def score_prediction_file(repo_root: Path, gold_path: Path, prediction_path: Pat
     except json.JSONDecodeError:
         return {
             "task_id": gold_obj["task_id"],
-            "primary_metrics": _empty_primary_metrics(config["primary_metrics"]),
+            "primary_metrics": _empty_metrics(config["primary_metrics"]),
+            "secondary_metrics": _empty_metrics(config["secondary_metrics"]),
             "primary_score": config["hard_fail_rules"]["invalid_json_score"],
             "hard_fail_reason": "invalid_json",
         }
@@ -251,7 +442,8 @@ def score_prediction_file(repo_root: Path, gold_path: Path, prediction_path: Pat
 def _missing_prediction_result(task_id, metric_names):
     return {
         "task_id": task_id,
-        "primary_metrics": _empty_primary_metrics(metric_names),
+        "primary_metrics": _empty_metrics(metric_names),
+        "secondary_metrics": {"action_semantic_f1": 0.0},
         "primary_score": 0.0,
         "hard_fail_reason": "missing_prediction",
     }
@@ -292,12 +484,24 @@ def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
             hard_fail_count += 1
 
     scores = [result["primary_score"] for result in results]
+    mean_primary_metrics = {}
+    for metric_name in config["primary_metrics"]:
+        mean_primary_metrics[metric_name] = _mean(
+            [result["primary_metrics"][metric_name] for result in results]
+        )
+    mean_secondary_metrics = {}
+    for metric_name in config["secondary_metrics"]:
+        mean_secondary_metrics[metric_name] = _mean(
+            [result["secondary_metrics"].get(metric_name, 0.0) for result in results]
+        )
     summary = {
         "sample_count": len(task_ids),
         "scored_count": scored_count,
         "missing_prediction_count": missing_prediction_count,
         "hard_fail_count": hard_fail_count,
         "mean_primary_score": _mean(scores),
+        "mean_primary_metrics": mean_primary_metrics,
+        "mean_secondary_metrics": mean_secondary_metrics,
     }
     return {
         "results": results,

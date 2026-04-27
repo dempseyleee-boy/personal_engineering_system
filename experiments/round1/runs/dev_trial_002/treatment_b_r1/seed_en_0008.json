@@ -1,0 +1,93 @@
+{
+  "task_id": "seed_en_0008",
+  "source_text": "Spec fragment: enable shadow_mode=true for recommender-api, keep max_batch_size at 64, and never write raw_email to audit.db. Export the dry-run output to shadow_report.json by 2026-05-08T16:20:00Z.",
+  "language_profile": {
+    "primary_language": "en",
+    "contains_code_switching": false,
+    "script_notes": "English technical instruction with config keys and ISO-8601 timestamp."
+  },
+  "extraction": {
+    "doc_type": "spec_fragment",
+    "entities": [
+      {
+        "name": "recommender-api",
+        "type": "api",
+        "surface_form": "recommender-api"
+      },
+      {
+        "name": "shadow_mode",
+        "type": "field",
+        "surface_form": "shadow_mode"
+      },
+      {
+        "name": "max_batch_size",
+        "type": "field",
+        "surface_form": "max_batch_size"
+      },
+      {
+        "name": "raw_email",
+        "type": "field",
+        "surface_form": "raw_email"
+      },
+      {
+        "name": "audit.db",
+        "type": "file",
+        "surface_form": "audit.db"
+      },
+      {
+        "name": "shadow_report.json",
+        "type": "file",
+        "surface_form": "shadow_report.json"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "shadow_mode",
+        "value": true
+      },
+      {
+        "key": "max_batch_size",
+        "value": 64
+      }
+    ],
+    "constraints": [
+      "never write raw_email to audit.db"
+    ],
+    "actions": [
+      {
+        "action_text": "enable shadow_mode=true for recommender-api"
+      },
+      {
+        "action_text": "keep max_batch_size at 64"
+      },
+      {
+        "action_text": "Export the dry-run output to shadow_report.json by 2026-05-08T16:20:00Z"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "audit.db",
+        "artifact_type": "file"
+      },
+      {
+        "artifact_name": "shadow_report.json",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-08T16:20:00Z",
+        "normalized_iso8601": "2026-05-08T16:20:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "64",
+        "value": 64,
+        "metric_name": "max_batch_size"
+      }
+    ],
+    "summary": "Spec fragment defining shadow mode, batch size, a privacy prohibition, and a dry-run export deadline."
+  }
+}

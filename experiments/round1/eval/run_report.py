@@ -20,6 +20,16 @@ def _mean(values):
     return round(sum(values) / len(values), 6)
 
 
+def _mean_metric_dicts(metric_dicts):
+    if not metric_dicts:
+        return {}
+    metric_names = metric_dicts[0].keys()
+    return {
+        metric_name: _mean([metric_dict.get(metric_name, 0.0) for metric_dict in metric_dicts])
+        for metric_name in metric_names
+    }
+
+
 def score_run_manifest(repo_root: Path, manifest_path: Path, output_path: Path | None = None):
     manifest = _load_json(manifest_path)
     split_path = repo_root / manifest["split"]
@@ -30,6 +40,8 @@ def score_run_manifest(repo_root: Path, manifest_path: Path, output_path: Path |
     for group_name, group_runs in manifest["groups"].items():
         group_scores = []
         group_hard_fail_counts = []
+        group_primary_metrics = []
+        group_secondary_metrics = []
         for run in group_runs:
             prediction_dir = Path(run["prediction_dir"])
             run_result = score_prediction_directory(
@@ -47,11 +59,15 @@ def score_run_manifest(repo_root: Path, manifest_path: Path, output_path: Path |
             runs.append(run_record)
             group_scores.append(run_result["summary"]["mean_primary_score"])
             group_hard_fail_counts.append(run_result["summary"]["hard_fail_count"])
+            group_primary_metrics.append(run_result["summary"]["mean_primary_metrics"])
+            group_secondary_metrics.append(run_result["summary"]["mean_secondary_metrics"])
 
         groups[group_name] = {
             "run_count": len(group_runs),
             "mean_primary_score": _mean(group_scores),
             "mean_hard_fail_count": _mean(group_hard_fail_counts),
+            "mean_primary_metrics": _mean_metric_dicts(group_primary_metrics),
+            "mean_secondary_metrics": _mean_metric_dicts(group_secondary_metrics),
         }
 
     result = {

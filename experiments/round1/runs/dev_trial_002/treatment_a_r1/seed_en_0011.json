@@ -1,0 +1,98 @@
+{
+  "task_id": "seed_en_0011",
+  "source_text": "Runbook excerpt: In qa, pin model_version to 2026.04, set retry_backoff_ms to 750, and do not promote summarizer-service if rouge_l drops below 0.31. Save comparison output in qa_compare.csv before 2026-05-11T08:10:00Z.",
+  "language_profile": {
+    "primary_language": "en",
+    "contains_code_switching": false,
+    "script_notes": "English runbook snippet with environment, configuration fields, metric thresholds, and timestamp."
+  },
+  "extraction": {
+    "doc_type": "runbook",
+    "entities": [
+      {
+        "name": "qa",
+        "type": "environment",
+        "surface_form": "qa"
+      },
+      {
+        "name": "model_version",
+        "type": "field",
+        "surface_form": "model_version"
+      },
+      {
+        "name": "retry_backoff_ms",
+        "type": "field",
+        "surface_form": "retry_backoff_ms"
+      },
+      {
+        "name": "summarizer-service",
+        "type": "service",
+        "surface_form": "summarizer-service"
+      },
+      {
+        "name": "rouge_l",
+        "type": "metric",
+        "surface_form": "rouge_l"
+      },
+      {
+        "name": "qa_compare.csv",
+        "type": "file",
+        "surface_form": "qa_compare.csv"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "model_version",
+        "value": "2026.04",
+        "normalized_value": "2026.04"
+      },
+      {
+        "key": "retry_backoff_ms",
+        "value": 750,
+        "normalized_value": 750
+      }
+    ],
+    "constraints": [
+      "do not promote summarizer-service if rouge_l drops below 0.31."
+    ],
+    "actions": [
+      {
+        "action_text": "pin model_version to 2026.04"
+      },
+      {
+        "action_text": "set retry_backoff_ms to 750"
+      },
+      {
+        "action_text": "do not promote summarizer-service if rouge_l drops below 0.31."
+      },
+      {
+        "action_text": "Save comparison output in qa_compare.csv before 2026-05-11T08:10:00Z."
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "qa_compare.csv",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-11T08:10:00Z",
+        "normalized_iso8601": "2026-05-11T08:10:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "750",
+        "value": 750,
+        "metric_name": "retry_backoff_ms"
+      },
+      {
+        "value_text": "0.31",
+        "value": 0.31,
+        "metric_name": "rouge_l"
+      }
+    ]
+  }
+}

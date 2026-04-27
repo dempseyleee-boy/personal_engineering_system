@@ -53,6 +53,7 @@ class Round1RunReportTests(unittest.TestCase):
         self.assertEqual(result["groups"]["baseline"]["run_count"], 2)
         self.assertEqual(result["groups"]["treatment_a"]["run_count"], 1)
         self.assertLess(result["groups"]["treatment_a"]["mean_primary_score"], 1.0)
+        self.assertEqual(result["groups"]["baseline"]["mean_secondary_metrics"]["action_semantic_f1"], 1.0)
         self.assertEqual(len(result["runs"]), 3)
 
     def test_score_run_manifest_writes_output_report(self):
@@ -82,6 +83,7 @@ class Round1RunReportTests(unittest.TestCase):
 
         self.assertEqual(saved["summary"], result["summary"])
         self.assertEqual(saved["groups"]["baseline"]["mean_primary_score"], 1.0)
+        self.assertEqual(saved["groups"]["baseline"]["mean_secondary_metrics"]["action_semantic_f1"], 1.0)
 
 
 if __name__ == "__main__":
