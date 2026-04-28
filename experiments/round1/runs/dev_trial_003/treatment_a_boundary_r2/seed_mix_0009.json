@@ -1,0 +1,115 @@
+{
+  "task_id": "seed_mix_0009",
+  "source_text": "Ops memo: 在 eu-west 环境把 cache_ttl_sec 从 900 调到 600，然后 run verify_cache.sh。Do not purge session-store unless error_rate > 0.02. 结果追加到 cache_audit.log，截止 2026-05-09T11:30:00Z。",
+  "language_profile": {
+    "primary_language": "mixed",
+    "contains_code_switching": true,
+    "script_notes": "Chinese and English are mixed within the same memo, with environment names, script names, metric names, and an ISO timestamp."
+  },
+  "extraction": {
+    "doc_type": "runbook",
+    "entities": [
+      {
+        "name": "eu-west",
+        "type": "environment",
+        "surface_form": "eu-west"
+      },
+      {
+        "name": "cache_ttl_sec",
+        "type": "field",
+        "surface_form": "cache_ttl_sec"
+      },
+      {
+        "name": "verify_cache.sh",
+        "type": "file",
+        "surface_form": "verify_cache.sh"
+      },
+      {
+        "name": "session-store",
+        "type": "service",
+        "surface_form": "session-store"
+      },
+      {
+        "name": "error_rate",
+        "type": "metric",
+        "surface_form": "error_rate"
+      },
+      {
+        "name": "cache_audit.log",
+        "type": "file",
+        "surface_form": "cache_audit.log"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "environment",
+        "value": "eu-west",
+        "normalized_value": "eu-west"
+      },
+      {
+        "key": "cache_ttl_sec",
+        "value": 600,
+        "unit": "sec",
+        "normalized_value": 600
+      }
+    ],
+    "constraints": [
+      "Do not purge session-store unless error_rate > 0.02.",
+      "结果追加到 cache_audit.log，截止 2026-05-09T11:30:00Z。"
+    ],
+    "actions": [
+      {
+        "action_text": "在 eu-west 环境把 cache_ttl_sec 从 900 调到 600",
+        "target": "cache_ttl_sec",
+        "status": "required"
+      },
+      {
+        "action_text": "run verify_cache.sh",
+        "target": "verify_cache.sh",
+        "status": "required"
+      },
+      {
+        "action_text": "结果追加到 cache_audit.log",
+        "target": "cache_audit.log",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "verify_cache.sh",
+        "artifact_type": "command",
+        "location": "verify_cache.sh"
+      },
+      {
+        "artifact_name": "cache_audit.log",
+        "artifact_type": "log",
+        "location": "cache_audit.log"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-09T11:30:00Z",
+        "normalized_iso8601": "2026-05-09T11:30:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "900",
+        "value": 900,
+        "metric_name": "cache_ttl_sec"
+      },
+      {
+        "value_text": "600",
+        "value": 600,
+        "metric_name": "cache_ttl_sec"
+      },
+      {
+        "value_text": "0.02",
+        "value": 0.02,
+        "metric_name": "error_rate"
+      }
+    ],
+    "summary": "The memo lowers cache TTL in eu-west, runs cache verification, forbids purging session-store unless error_rate exceeds 0.02, and requires appending results to the audit log by the deadline."
+  }
+}

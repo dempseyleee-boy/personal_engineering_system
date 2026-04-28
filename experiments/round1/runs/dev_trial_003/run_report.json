@@ -29,28 +29,28 @@
     "treatment_a_boundary": {
       "mean_hard_fail_count": 0.0,
       "mean_primary_metrics": {
-        "action_f1": 0.577778,
-        "artifact_f1": 0.722222,
-        "constraint_f1": 0.428572,
+        "action_f1": 0.483333,
+        "artifact_f1": 0.361111,
+        "constraint_f1": 0.339286,
         "entity_f1": 0.642064,
         "field_presence_accuracy": 1.0,
-        "numeric_normalization_accuracy": 0.455556,
-        "parameter_f1": 0.888889,
+        "numeric_normalization_accuracy": 0.463889,
+        "parameter_f1": 0.886111,
         "schema_validity": 1.0,
         "timestamp_accuracy": 1.0
       },
-      "mean_primary_score": 0.740556,
+      "mean_primary_score": 0.681558,
       "mean_secondary_metrics": {
-        "action_semantic_f1": 0.881296,
+        "action_semantic_f1": 0.883518,
         "average_interaction_count": 0.0,
         "average_runtime_seconds": 0.0,
         "average_token_usage": 0.0,
-        "constraint_semantic_f1": 0.725794,
+        "constraint_semantic_f1": 0.738012,
         "critical_error_rate": 0.0,
         "hallucination_rate": 0.0,
         "score_variance": 0.0
       },
-      "run_count": 1
+      "run_count": 2
     },
     "treatment_a_ref": {
       "mean_hard_fail_count": 0.0,
@@ -653,12 +653,203 @@
         "sample_count": 6,
         "scored_count": 6
       }
+    },
+    {
+      "group_name": "treatment_a_boundary",
+      "prediction_dir": "experiments/round1/runs/dev_trial_003/treatment_a_boundary_r2",
+      "repeat_id": "r2",
+      "results": [
+        {
+          "hard_fail_reason": null,
+          "primary_metrics": {
+            "action_f1": 0.0,
+            "artifact_f1": 0.0,
+            "constraint_f1": 0.0,
+            "entity_f1": 0.75,
+            "field_presence_accuracy": 1.0,
+            "numeric_normalization_accuracy": 1.0,
+            "parameter_f1": 1.0,
+            "schema_validity": 1.0,
+            "timestamp_accuracy": 1.0
+          },
+          "primary_score": 0.6125,
+          "secondary_metrics": {
+            "action_semantic_f1": 1.0,
+            "average_interaction_count": 0.0,
+            "average_runtime_seconds": 0.0,
+            "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.9125,
+            "critical_error_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "score_variance": 0.0
+          },
+          "task_id": "seed_zh_0007"
+        },
+        {
+          "hard_fail_reason": null,
+          "primary_metrics": {
+            "action_f1": 1.0,
+            "artifact_f1": 0.0,
+            "constraint_f1": 0.5,
+            "entity_f1": 0.6,
+            "field_presence_accuracy": 1.0,
+            "numeric_normalization_accuracy": 0.0,
+            "parameter_f1": 1.0,
+            "schema_validity": 1.0,
+            "timestamp_accuracy": 1.0
+          },
+          "primary_score": 0.715,
+          "secondary_metrics": {
+            "action_semantic_f1": 1.0,
+            "average_interaction_count": 0.0,
+            "average_runtime_seconds": 0.0,
+            "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.5,
+            "critical_error_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "score_variance": 0.0
+          },
+          "task_id": "seed_en_0008"
+        },
+        {
+          "hard_fail_reason": null,
+          "primary_metrics": {
+            "action_f1": 0.333333,
+            "artifact_f1": 0.0,
+            "constraint_f1": 0.0,
+            "entity_f1": 0.8,
+            "field_presence_accuracy": 1.0,
+            "numeric_normalization_accuracy": 0.333333,
+            "parameter_f1": 0.5,
+            "schema_validity": 1.0,
+            "timestamp_accuracy": 1.0
+          },
+          "primary_score": 0.545,
+          "secondary_metrics": {
+            "action_semantic_f1": 0.983333,
+            "average_interaction_count": 0.0,
+            "average_runtime_seconds": 0.0,
+            "average_token_usage": 0.0,
+            "constraint_semantic_f1": 1.0,
+            "critical_error_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "score_variance": 0.0
+          },
+          "task_id": "seed_mix_0009"
+        },
+        {
+          "hard_fail_reason": null,
+          "primary_metrics": {
+            "action_f1": 0.0,
+            "artifact_f1": 0.0,
+            "constraint_f1": 0.0,
+            "entity_f1": 0.75,
+            "field_presence_accuracy": 1.0,
+            "numeric_normalization_accuracy": 0.5,
+            "parameter_f1": 1.0,
+            "schema_validity": 1.0,
+            "timestamp_accuracy": 1.0
+          },
+          "primary_score": 0.575,
+          "secondary_metrics": {
+            "action_semantic_f1": 0.753333,
+            "average_interaction_count": 0.0,
+            "average_runtime_seconds": 0.0,
+            "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.588889,
+            "critical_error_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "score_variance": 0.0
+          },
+          "task_id": "seed_zh_0010"
+        },
+        {
+          "hard_fail_reason": null,
+          "primary_metrics": {
+            "action_f1": 1.0,
+            "artifact_f1": 0.0,
+            "constraint_f1": 1.0,
+            "entity_f1": 0.666667,
+            "field_presence_accuracy": 1.0,
+            "numeric_normalization_accuracy": 0.5,
+            "parameter_f1": 0.8,
+            "schema_validity": 1.0,
+            "timestamp_accuracy": 1.0
+          },
+          "primary_score": 0.7825,
+          "secondary_metrics": {
+            "action_semantic_f1": 1.0,
+            "average_interaction_count": 0.0,
+            "average_runtime_seconds": 0.0,
+            "average_token_usage": 0.0,
+            "constraint_semantic_f1": 1.0,
+            "critical_error_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "score_variance": 0.0
+          },
+          "task_id": "seed_en_0011"
+        },
+        {
+          "hard_fail_reason": null,
+          "primary_metrics": {
+            "action_f1": 0.0,
+            "artifact_f1": 0.0,
+            "constraint_f1": 0.0,
+            "entity_f1": 0.285714,
+            "field_presence_accuracy": 1.0,
+            "numeric_normalization_accuracy": 0.5,
+            "parameter_f1": 1.0,
+            "schema_validity": 1.0,
+            "timestamp_accuracy": 1.0
+          },
+          "primary_score": 0.505357,
+          "secondary_metrics": {
+            "action_semantic_f1": 0.577778,
+            "average_interaction_count": 0.0,
+            "average_runtime_seconds": 0.0,
+            "average_token_usage": 0.0,
+            "constraint_semantic_f1": 0.5,
+            "critical_error_rate": 0.0,
+            "hallucination_rate": 0.0,
+            "score_variance": 0.0
+          },
+          "task_id": "seed_mix_0012"
+        }
+      ],
+      "summary": {
+        "hard_fail_count": 0,
+        "mean_primary_metrics": {
+          "action_f1": 0.388889,
+          "artifact_f1": 0.0,
+          "constraint_f1": 0.25,
+          "entity_f1": 0.642064,
+          "field_presence_accuracy": 1.0,
+          "numeric_normalization_accuracy": 0.472222,
+          "parameter_f1": 0.883333,
+          "schema_validity": 1.0,
+          "timestamp_accuracy": 1.0
+        },
+        "mean_primary_score": 0.62256,
+        "mean_secondary_metrics": {
+          "action_semantic_f1": 0.885741,
+          "average_interaction_count": 0.0,
+          "average_runtime_seconds": 0.0,
+          "average_token_usage": 0.0,
+          "constraint_semantic_f1": 0.750231,
+          "critical_error_rate": 0.0,
+          "hallucination_rate": 0.0,
+          "score_variance": 0.0
+        },
+        "missing_prediction_count": 0,
+        "sample_count": 6,
+        "scored_count": 6
+      }
     }
   ],
   "split": "experiments/round1/splits/dev.jsonl",
   "summary": {
     "group_count": 3,
-    "run_count": 3
+    "run_count": 4
   },
   "task_ids": [
     "seed_zh_0007",

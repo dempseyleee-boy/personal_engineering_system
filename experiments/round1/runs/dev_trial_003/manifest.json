@@ -25,6 +25,10 @@
       {
         "repeat_id": "r1",
         "prediction_dir": "experiments/round1/runs/dev_trial_003/treatment_a_boundary_r1"
+      },
+      {
+        "repeat_id": "r2",
+        "prediction_dir": "experiments/round1/runs/dev_trial_003/treatment_a_boundary_r2"
       }
     ]
   }
