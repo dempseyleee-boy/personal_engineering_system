@@ -3,6 +3,18 @@ import json
 from pathlib import Path
 
 
+def _validate_result_record(job, result_record):
+    required_fields = {"job_id", "task_id", "prediction", "runtime_seconds", "interaction_count"}
+    missing_fields = sorted(required_fields - set(result_record.keys()))
+    if missing_fields:
+        raise ValueError(f"missing required result fields: {', '.join(missing_fields)}")
+
+    if result_record["task_id"] != job["task_id"]:
+        raise ValueError(
+            f"task_id mismatch for {result_record['job_id']}: expected {job['task_id']}, got {result_record['task_id']}"
+        )
+
+
 def materialize_job_outputs(prediction_path: Path, result_record):
     prediction_path.parent.mkdir(parents=True, exist_ok=True)
     prediction_payload = result_record["prediction"]
@@ -11,7 +23,7 @@ def materialize_job_outputs(prediction_path: Path, result_record):
     metadata_payload = {
         "job_id": result_record["job_id"],
         "task_id": result_record["task_id"],
-        "token_usage": result_record.get("token_usage", 0),
+        "token_usage": result_record.get("token_usage"),
         "runtime_seconds": result_record.get("runtime_seconds", 0.0),
         "interaction_count": result_record.get("interaction_count", 0),
     }
@@ -38,7 +50,11 @@ def _load_result_records(path: Path):
 def materialize_results(job_specs_path: Path, results_path: Path, repo_root: Path):
     job_specs = _load_job_specs(job_specs_path)
     for result_record in _load_result_records(results_path):
-        job = job_specs[result_record["job_id"]]
+        job_id = result_record["job_id"]
+        if job_id not in job_specs:
+            raise KeyError(f"unknown job_id: {job_id}")
+        job = job_specs[job_id]
+        _validate_result_record(job, result_record)
         prediction_path = repo_root / job["prediction_path"]
         materialize_job_outputs(prediction_path=prediction_path, result_record=result_record)
 

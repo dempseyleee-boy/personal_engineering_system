@@ -1,0 +1,97 @@
+{
+  "task_id": "seed_zh_0007",
+  "source_text": "变更要求：若 p99 超过 250 ms，不要继续扩容 auth-service。把 feature_flag_login_v2 设为 false，保留 previous_config.yaml，并在 2026-05-07T03:00:00Z 前通知 platform-team。",
+  "language_profile": {
+    "primary_language": "mixed",
+    "contains_code_switching": true,
+    "script_notes": "Chinese text with embedded English identifiers and ISO-8601 timestamp."
+  },
+  "extraction": {
+    "doc_type": "change_request",
+    "entities": [
+      {
+        "name": "auth-service",
+        "type": "service",
+        "surface_form": "auth-service"
+      },
+      {
+        "name": "feature_flag_login_v2",
+        "type": "configuration",
+        "surface_form": "feature_flag_login_v2"
+      },
+      {
+        "name": "previous_config.yaml",
+        "type": "file",
+        "surface_form": "previous_config.yaml"
+      },
+      {
+        "name": "platform-team",
+        "type": "team",
+        "surface_form": "platform-team"
+      },
+      {
+        "name": "p99",
+        "type": "metric",
+        "surface_form": "p99"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "feature_flag_login_v2",
+        "value": "false",
+        "normalized_value": false
+      },
+      {
+        "key": "p99_threshold",
+        "value": "250 ms",
+        "unit": "ms",
+        "normalized_value": 250
+      }
+    ],
+    "constraints": [
+      {
+        "action_text": "Do not continue scaling out auth-service if p99 exceeds 250 ms.",
+        "target": "auth-service"
+      },
+      {
+        "action_text": "Notify platform-team before 2026-05-07T03:00:00Z.",
+        "target": "platform-team"
+      }
+    ],
+    "actions": [
+      {
+        "action_text": "Set feature_flag_login_v2 to false."
+      },
+      {
+        "action_text": "Retain previous_config.yaml.",
+        "target": "previous_config.yaml"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "previous_config.yaml",
+        "artifact_type": "file"
+      },
+      {
+        "artifact_name": "feature_flag_login_v2",
+        "artifact_type": "configuration"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-07T03:00:00Z",
+        "normalized_iso8601": "2026-05-07T03:00:00Z",
+        "timezone": "UTC"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "250 ms",
+        "value": 250,
+        "unit": "ms",
+        "metric_name": "p99 threshold"
+      }
+    ],
+    "summary": "Disable the login v2 feature flag, keep the previous config file, notify the platform team by the deadline, and avoid further auth-service scale-out when p99 is above 250 ms."
+  }
+}

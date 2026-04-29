@@ -1,0 +1,59 @@
+{
+  "task_id": "seed_zh_0007",
+  "source_text": "变更要求：若 p99 超过 250 ms，不要继续扩容 auth-service。把 feature_flag_login_v2 设为 false，保留 previous_config.yaml，并在 2026-05-07T03:00:00Z 前通知 platform-team。",
+  "language_profile": {
+    "primary_language": "zh",
+    "contains_code_switching": true
+  },
+  "extraction": {
+    "doc_type": "deployment_instruction",
+    "entities": [
+      {
+        "name": "auth-service",
+        "type": "service",
+        "surface_form": "auth-service"
+      },
+      {
+        "name": "platform-team",
+        "type": "team",
+        "surface_form": "platform-team"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "feature_flag_login_v2",
+        "value": false
+      }
+    ],
+    "constraints": [
+      "Do not continue scaling auth-service if p99 exceeds 250 ms.",
+      "Notify platform-team before 2026-05-07T03:00:00Z."
+    ],
+    "actions": [
+      {
+        "action_text": "set feature_flag_login_v2 to false",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "previous_config.yaml",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-07T03:00:00Z",
+        "normalized_iso8601": "2026-05-07T03:00:00Z"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "250 ms",
+        "value": 250,
+        "unit": "ms",
+        "metric_name": "p99"
+      }
+    ]
+  }
+}

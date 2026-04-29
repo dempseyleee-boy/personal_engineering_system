@@ -16,6 +16,18 @@ def _load_optional_json(path: Path):
     return _load_json(path)
 
 
+def _present_metadata_values(records, field_name):
+    values = []
+    for record in records:
+        if field_name not in record:
+            continue
+        value = record[field_name]
+        if value is None:
+            continue
+        values.append(value)
+    return values
+
+
 def load_task_ids_from_split(split_path: Path):
     task_ids = []
     for line in split_path.read_text().splitlines():
@@ -62,6 +74,33 @@ def _f1_from_sets(gold_items, pred_items):
 
 def _empty_metrics(metric_names):
     return {name: 0.0 for name in metric_names}
+
+
+def _empty_diagnostics():
+    return {
+        "action_as_constraint_count": 0,
+        "constraint_as_action_count": 0,
+        "artifact_as_action_count": 0,
+        "parameter_as_constraint_count": 0,
+        "parameter_as_action_count": 0,
+    }
+
+
+def _empty_hard_fail_breakdown():
+    return {
+        "invalid_json_count": 0,
+        "schema_invalid_count": 0,
+        "wrong_task_id_count": 0,
+        "missing_prediction_count": 0,
+    }
+
+
+def _contains_canonical_substring(haystack, needle):
+    canonical_haystack = _canonical_string(haystack)
+    canonical_needle = _canonical_string(needle)
+    if not canonical_needle:
+        return False
+    return canonical_needle in canonical_haystack
 
 
 def _presence_score(gold_extraction, pred_extraction):
@@ -426,6 +465,103 @@ def _semantic_constraint_f1(gold_constraints, pred_constraints):
     return round(2 * precision * recall / (precision + recall), 6)
 
 
+def _boundary_diagnostics(gold_extraction, pred_extraction, threshold=0.8):
+    diagnostics = _empty_diagnostics()
+
+    gold_constraints = gold_extraction["constraints"]
+    for pred_action in pred_extraction["actions"]:
+        action_text = pred_action.get("action_text", "")
+        if any(_constraint_similarity(gold_constraint, action_text) >= threshold for gold_constraint in gold_constraints):
+            diagnostics["action_as_constraint_count"] += 1
+
+    gold_actions = gold_extraction["actions"]
+    for pred_constraint in pred_extraction["constraints"]:
+        pred_action_like = {"action_text": pred_constraint}
+        if any(_action_similarity(gold_action, pred_action_like) >= threshold for gold_action in gold_actions):
+            diagnostics["constraint_as_action_count"] += 1
+
+    gold_artifact_names = {
+        _canonical_string(artifact.get("artifact_name", ""))
+        for artifact in gold_extraction["artifacts"]
+        if artifact.get("artifact_name")
+    }
+    for pred_action in pred_extraction["actions"]:
+        action_text = _canonical_string(pred_action.get("action_text", ""))
+        if (
+            _action_verb_class(action_text) == "other"
+            and action_text in gold_artifact_names
+        ):
+            diagnostics["artifact_as_action_count"] += 1
+
+    parameter_signatures = []
+    for parameter in gold_extraction["parameters"]:
+        key = _canonical_string(parameter.get("key", ""))
+        value = parameter.get("value")
+        if key == "" or value is None:
+            continue
+        parameter_signatures.append((key, _canonical_string(value)))
+
+    for pred_constraint in pred_extraction["constraints"]:
+        normalized_constraint = _canonical_string(pred_constraint)
+        if any(key in normalized_constraint and value in normalized_constraint for key, value in parameter_signatures):
+            diagnostics["parameter_as_constraint_count"] += 1
+
+    for pred_action in pred_extraction["actions"]:
+        action_text = _canonical_string(pred_action.get("action_text", ""))
+        if any(key in action_text and value in action_text for key, value in parameter_signatures):
+            if not any(_action_similarity(gold_action, pred_action) >= threshold for gold_action in gold_actions):
+                diagnostics["parameter_as_action_count"] += 1
+
+    return diagnostics
+
+
+def _unsupported_entity_rate(source_text, entities):
+    if not entities:
+        return 0.0
+    unsupported = 0
+    for entity in entities:
+        surface_form = entity.get("surface_form") or entity.get("name", "")
+        if not _contains_canonical_substring(source_text, surface_form):
+            unsupported += 1
+    return round(unsupported / len(entities), 6)
+
+
+def _action_is_supported_by_source(source_text, action):
+    action_text = action.get("action_text", "")
+    if _contains_canonical_substring(source_text, action_text):
+        return True
+
+    source_lower = _canonical_string(source_text)
+    verb_class = _action_verb_class(action_text)
+    identifiers = _action_identifiers(action)
+    values = _NUMBER_RE.findall(_canonical_string(action_text))
+
+    verb_supported = verb_class == "other" or verb_class in _canonical_string(source_text)
+    identifiers_supported = all(identifier in source_lower for identifier in identifiers) if identifiers else False
+    values_supported = all(value in source_lower for value in values) if values else True
+    return verb_supported and identifiers_supported and values_supported
+
+
+def _unsupported_action_rate(source_text, actions):
+    if not actions:
+        return 0.0
+    unsupported = 0
+    for action in actions:
+        if not _action_is_supported_by_source(source_text, action):
+            unsupported += 1
+    return round(unsupported / len(actions), 6)
+
+
+def _unsupported_constraint_rate(source_text, constraints):
+    if not constraints:
+        return 0.0
+    unsupported = 0
+    for constraint in constraints:
+        if not _contains_canonical_substring(source_text, constraint):
+            unsupported += 1
+    return round(unsupported / len(constraints), 6)
+
+
 def _weighted_sum(metrics, weights):
     total = 0.0
     for metric_name, weight in weights.items():
@@ -439,6 +575,7 @@ def score_prediction(repo_root: Path, gold_obj, prediction_obj):
     secondary_metric_names = config["secondary_metrics"]
     primary_metrics = _empty_metrics(primary_metric_names)
     secondary_metrics = _empty_metrics(secondary_metric_names)
+    diagnostics = _empty_diagnostics()
 
     hard_fail_reason = None
     if prediction_obj.get("task_id") != gold_obj.get("task_id"):
@@ -455,6 +592,7 @@ def score_prediction(repo_root: Path, gold_obj, prediction_obj):
             "secondary_metrics": secondary_metrics,
             "primary_score": 0.0,
             "hard_fail_reason": hard_fail_reason,
+            "diagnostics": diagnostics,
         }
 
     if hard_fail_reason == "schema_invalid":
@@ -466,6 +604,7 @@ def score_prediction(repo_root: Path, gold_obj, prediction_obj):
             "secondary_metrics": secondary_metrics,
             "primary_score": capped,
             "hard_fail_reason": hard_fail_reason,
+            "diagnostics": diagnostics,
         }
 
     primary_metrics["schema_validity"] = 1.0
@@ -496,6 +635,27 @@ def score_prediction(repo_root: Path, gold_obj, prediction_obj):
         gold_extraction["actions"],
         pred_extraction["actions"],
     )
+    secondary_metrics["unsupported_entity_rate"] = _unsupported_entity_rate(
+        gold_obj["source_text"],
+        pred_extraction["entities"],
+    )
+    secondary_metrics["unsupported_action_rate"] = _unsupported_action_rate(
+        gold_obj["source_text"],
+        pred_extraction["actions"],
+    )
+    secondary_metrics["unsupported_constraint_rate"] = _unsupported_constraint_rate(
+        gold_obj["source_text"],
+        pred_extraction["constraints"],
+    )
+    secondary_metrics["hallucination_rate"] = round(
+        (
+            secondary_metrics["unsupported_entity_rate"]
+            + secondary_metrics["unsupported_action_rate"]
+            + secondary_metrics["unsupported_constraint_rate"]
+        )
+        / 3,
+        6,
+    )
     primary_metrics["artifact_f1"] = _f1_from_sets(
         _normalize_artifacts(gold_extraction["artifacts"]),
         _normalize_artifacts(pred_extraction["artifacts"]),
@@ -508,6 +668,7 @@ def score_prediction(repo_root: Path, gold_obj, prediction_obj):
         _normalize_numeric_values(gold_extraction["numeric_values"]),
         _normalize_numeric_values(pred_extraction["numeric_values"]),
     )
+    diagnostics = _boundary_diagnostics(gold_extraction, pred_extraction)
 
     primary_score = _weighted_sum(primary_metrics, weights)
     return {
@@ -516,6 +677,7 @@ def score_prediction(repo_root: Path, gold_obj, prediction_obj):
         "secondary_metrics": {name: round(value, 6) for name, value in secondary_metrics.items()},
         "primary_score": primary_score,
         "hard_fail_reason": None,
+        "diagnostics": diagnostics,
     }
 
 
@@ -531,6 +693,7 @@ def score_prediction_file(repo_root: Path, gold_path: Path, prediction_path: Pat
             "secondary_metrics": _empty_metrics(config["secondary_metrics"]),
             "primary_score": config["hard_fail_rules"]["invalid_json_score"],
             "hard_fail_reason": "invalid_json",
+            "diagnostics": _empty_diagnostics(),
         }
     return score_prediction(repo_root=repo_root, gold_obj=gold_obj, prediction_obj=prediction_obj)
 
@@ -542,6 +705,7 @@ def _missing_prediction_result(task_id, metric_names):
         "secondary_metrics": {"action_semantic_f1": 0.0, "constraint_semantic_f1": 0.0},
         "primary_score": 0.0,
         "hard_fail_reason": "missing_prediction",
+        "diagnostics": _empty_diagnostics(),
     }
 
 
@@ -552,7 +716,7 @@ def _mean(values):
 
 
 def _metadata_metric_mean(records, field_name):
-    values = [record[field_name] for record in records if field_name in record]
+    values = _present_metadata_values(records, field_name)
     return _mean(values)
 
 
@@ -564,6 +728,7 @@ def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
     scored_count = 0
     hard_fail_count = 0
     missing_prediction_count = 0
+    hard_fail_breakdown = _empty_hard_fail_breakdown()
 
     for task_id in task_ids:
         gold_path = gold_root / f"{task_id}.json"
@@ -574,6 +739,7 @@ def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
             results.append(result)
             hard_fail_count += 1
             missing_prediction_count += 1
+            hard_fail_breakdown["missing_prediction_count"] += 1
             continue
 
         result = score_prediction_file(
@@ -588,6 +754,12 @@ def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
         scored_count += 1
         if result["hard_fail_reason"] is not None:
             hard_fail_count += 1
+            if result["hard_fail_reason"] == "invalid_json":
+                hard_fail_breakdown["invalid_json_count"] += 1
+            elif result["hard_fail_reason"] == "schema_invalid":
+                hard_fail_breakdown["schema_invalid_count"] += 1
+            elif result["hard_fail_reason"] == "wrong_task_id":
+                hard_fail_breakdown["wrong_task_id_count"] += 1
 
     scores = [result["primary_score"] for result in results]
     mean_primary_metrics = {}
@@ -603,14 +775,20 @@ def score_prediction_directory(repo_root: Path, prediction_dir: Path, task_ids):
     mean_secondary_metrics["average_token_usage"] = _metadata_metric_mean(metadata_records, "token_usage")
     mean_secondary_metrics["average_runtime_seconds"] = _metadata_metric_mean(metadata_records, "runtime_seconds")
     mean_secondary_metrics["average_interaction_count"] = _metadata_metric_mean(metadata_records, "interaction_count")
+    mean_diagnostics = {
+        diagnostic_name: _mean([result["diagnostics"].get(diagnostic_name, 0.0) for result in results])
+        for diagnostic_name in _empty_diagnostics().keys()
+    }
     summary = {
         "sample_count": len(task_ids),
         "scored_count": scored_count,
         "missing_prediction_count": missing_prediction_count,
         "hard_fail_count": hard_fail_count,
+        "hard_fail_breakdown": hard_fail_breakdown,
         "mean_primary_score": _mean(scores),
         "mean_primary_metrics": mean_primary_metrics,
         "mean_secondary_metrics": mean_secondary_metrics,
+        "mean_diagnostics": mean_diagnostics,
     }
     return {
         "results": results,

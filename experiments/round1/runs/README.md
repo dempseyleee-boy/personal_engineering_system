@@ -44,3 +44,15 @@ For metadata-aware execution, each prediction file may have a sidecar:
 ```
 
 The helper `experiments/round1/runs/materialize_run.py` can write both prediction JSON and `.meta.json` sidecars from a JSONL results stream.
+
+Recommended metadata-first workflow:
+
+1. Prepare packets for execution:
+   - `python3 experiments/round1/runs/prepare_job_packets.py --job-specs <job_specs.jsonl> --output-dir <packets_dir>`
+2. Run each packet with the target model or agent and save one prediction JSON per job.
+3. Append each completed result with metadata:
+   - `python3 experiments/round1/runs/record_run_result.py --output <results.jsonl> --job-id <job_id> --task-id <task_id> --prediction <prediction.json> --token-usage <n> --runtime-seconds <s> --interaction-count <n>`
+4. Materialize predictions and sidecars:
+   - `python3 experiments/round1/runs/materialize_run.py --job-specs <job_specs.jsonl> --results <results.jsonl>`
+5. Score the run:
+   - `python3 experiments/round1/eval/run_report.py --manifest <manifest.json> --output <run_report.json>`

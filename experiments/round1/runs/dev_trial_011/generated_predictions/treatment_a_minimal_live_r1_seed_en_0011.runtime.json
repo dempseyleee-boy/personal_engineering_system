@@ -1,0 +1,7 @@
+{
+  "job_id": "treatment_a_minimal_live_r1_seed_en_0011",
+  "task_id": "seed_en_0011",
+  "prediction_path": "/home/ubuntu/下载/LLM_learning/personal_engineering_system/experiments/round1/runs/dev_trial_011/generated_predictions/treatment_a_minimal_live_r1_seed_en_0011.json",
+  "runtime_seconds": 8.1e-05,
+  "interaction_count": 1
+}

@@ -123,6 +123,15 @@ class Round1EvaluatorTests(unittest.TestCase):
         self.assertEqual(result["summary"]["scored_count"], 1)
         self.assertEqual(result["summary"]["missing_prediction_count"], 1)
         self.assertEqual(result["summary"]["hard_fail_count"], 1)
+        self.assertEqual(
+            result["summary"]["hard_fail_breakdown"],
+            {
+                "invalid_json_count": 0,
+                "schema_invalid_count": 0,
+                "wrong_task_id_count": 0,
+                "missing_prediction_count": 1,
+            },
+        )
         missing_result = next(item for item in result["results"] if item["task_id"] == "seed_zh_0001")
         self.assertEqual(missing_result["hard_fail_reason"], "missing_prediction")
         self.assertEqual(missing_result["primary_score"], 0.0)
@@ -266,6 +275,115 @@ class Round1EvaluatorTests(unittest.TestCase):
 
         self.assertLess(result["secondary_metrics"]["constraint_semantic_f1"], 1.0)
         self.assertGreaterEqual(result["secondary_metrics"]["constraint_semantic_f1"], 0.0)
+
+    def test_boundary_diagnostics_detect_action_constraint_crossing(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_mix_0009.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_mix_0009.json").read_text())
+        prediction_obj["extraction"]["actions"] = [
+            {"action_text": "Do not purge session-store unless error_rate > 0.02."},
+            {"action_text": "run verify_cache.sh"},
+            {"action_text": "结果追加到 cache_audit.log，截止 2026-05-09T11:30:00Z。"},
+        ]
+        prediction_obj["extraction"]["constraints"] = []
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertEqual(result["diagnostics"]["action_as_constraint_count"], 2)
+        self.assertEqual(result["diagnostics"]["constraint_as_action_count"], 0)
+
+    def test_groundedness_metrics_detect_unsupported_content(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_en_0011.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_en_0011.json").read_text())
+        prediction_obj["extraction"]["entities"] = prediction_obj["extraction"]["entities"] + [
+            {"name": "shadow-service", "type": "service", "surface_form": "shadow-service"}
+        ]
+        prediction_obj["extraction"]["actions"] = prediction_obj["extraction"]["actions"] + [
+            {"action_text": "Restart shadow-service immediately", "status": "required"}
+        ]
+        prediction_obj["extraction"]["constraints"] = prediction_obj["extraction"]["constraints"] + [
+            "Do not deploy shadow-service after midnight."
+        ]
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertGreater(result["secondary_metrics"]["unsupported_entity_rate"], 0.0)
+        self.assertGreater(result["secondary_metrics"]["unsupported_action_rate"], 0.0)
+        self.assertGreater(result["secondary_metrics"]["unsupported_constraint_rate"], 0.0)
+        self.assertGreater(result["secondary_metrics"]["hallucination_rate"], 0.0)
+
+    def test_groundedness_metrics_zero_when_supported(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_en_0011.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_en_0011.json").read_text())
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertEqual(result["secondary_metrics"]["unsupported_entity_rate"], 0.0)
+        self.assertEqual(result["secondary_metrics"]["unsupported_action_rate"], 0.0)
+        self.assertEqual(result["secondary_metrics"]["unsupported_constraint_rate"], 0.0)
+        self.assertEqual(result["secondary_metrics"]["hallucination_rate"], 0.0)
+
+    def test_boundary_diagnostics_detect_artifact_and_parameter_crossing(self):
+        gold_obj = json.loads((GOLD_ROOT / "seed_mix_0003.json").read_text())
+        prediction_obj = json.loads((GOLD_ROOT / "seed_mix_0003.json").read_text())
+        prediction_obj["extraction"]["actions"] = [
+            {"action_text": "runbook.md", "status": "required"},
+            {"action_text": "timeout_ms: 1500 ms", "status": "required"},
+        ]
+        prediction_obj["extraction"]["constraints"] = [
+            "timeout_ms should remain 1500 ms."
+        ]
+
+        result = score_prediction(
+            repo_root=REPO_ROOT,
+            gold_obj=gold_obj,
+            prediction_obj=prediction_obj,
+        )
+
+        self.assertEqual(result["diagnostics"]["artifact_as_action_count"], 1)
+        self.assertEqual(result["diagnostics"]["parameter_as_action_count"], 1)
+        self.assertEqual(result["diagnostics"]["parameter_as_constraint_count"], 1)
+
+    def test_directory_scoring_reports_hard_fail_breakdown(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            prediction_dir = Path(temp_dir)
+            wrong_task = json.loads((GOLD_ROOT / "seed_mix_0003.json").read_text())
+            wrong_task["task_id"] = "seed_mix_wrong"
+            (prediction_dir / "seed_mix_0003.json").write_text(json.dumps(wrong_task, ensure_ascii=False))
+
+            schema_invalid = json.loads((GOLD_ROOT / "seed_zh_0004.json").read_text())
+            del schema_invalid["extraction"]["actions"]
+            (prediction_dir / "seed_zh_0004.json").write_text(json.dumps(schema_invalid, ensure_ascii=False))
+
+            (prediction_dir / "seed_en_0002.json").write_text("{ invalid json")
+
+            result = score_prediction_directory(
+                repo_root=REPO_ROOT,
+                prediction_dir=prediction_dir,
+                task_ids=["seed_mix_0003", "seed_zh_0004", "seed_en_0002", "seed_zh_0001"],
+            )
+
+        self.assertEqual(result["summary"]["hard_fail_count"], 4)
+        self.assertEqual(
+            result["summary"]["hard_fail_breakdown"],
+            {
+                "invalid_json_count": 1,
+                "schema_invalid_count": 1,
+                "wrong_task_id_count": 1,
+                "missing_prediction_count": 1,
+            },
+        )
 
 
 if __name__ == "__main__":

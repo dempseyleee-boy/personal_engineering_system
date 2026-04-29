@@ -1,0 +1,79 @@
+{
+  "task_id": "seed_en_0011",
+  "source_text": "Runbook excerpt: In qa, pin model_version to 2026.04, set retry_backoff_ms to 750, and do not promote summarizer-service if rouge_l drops below 0.31. Save comparison output in qa_compare.csv before 2026-05-11T08:10:00Z.",
+  "language_profile": {
+    "primary_language": "en",
+    "contains_code_switching": false
+  },
+  "extraction": {
+    "doc_type": "runbook",
+    "entities": [
+      {
+        "name": "qa",
+        "type": "environment",
+        "surface_form": "qa"
+      },
+      {
+        "name": "summarizer-service",
+        "type": "service",
+        "surface_form": "summarizer-service"
+      },
+      {
+        "name": "qa_compare.csv",
+        "type": "file",
+        "surface_form": "qa_compare.csv"
+      }
+    ],
+    "parameters": [
+      {
+        "key": "model_version",
+        "value": "2026.04"
+      },
+      {
+        "key": "retry_backoff_ms",
+        "value": 750
+      }
+    ],
+    "constraints": [
+      "Do not promote summarizer-service if rouge_l drops below 0.31.",
+      "Save comparison output in qa_compare.csv before 2026-05-11T08:10:00Z."
+    ],
+    "actions": [
+      {
+        "action_text": "pin model_version to 2026.04 in qa",
+        "status": "required"
+      },
+      {
+        "action_text": "set retry_backoff_ms to 750",
+        "status": "required"
+      },
+      {
+        "action_text": "save comparison output in qa_compare.csv",
+        "status": "required"
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact_name": "qa_compare.csv",
+        "artifact_type": "file"
+      }
+    ],
+    "timestamps": [
+      {
+        "text": "2026-05-11T08:10:00Z",
+        "normalized_iso8601": "2026-05-11T08:10:00Z"
+      }
+    ],
+    "numeric_values": [
+      {
+        "value_text": "750",
+        "value": 750
+      },
+      {
+        "value_text": "0.31",
+        "value": 0.31,
+        "metric_name": "rouge_l"
+      }
+    ]
+  }
+}

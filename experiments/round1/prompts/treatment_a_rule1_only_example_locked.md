@@ -1,0 +1,8 @@
+# Treatment A Rule1-Only Example-Locked Prompt Contract
+
+Use the same structure and checklist as `treatment_a_boundary_example_locked.md`.
+
+Additional extraction rule for this ablation:
+- Put conditional, prohibitive, and deadline-bearing statements in `constraints`, even if they contain a verb.
+
+All other behavior should follow `baseline_example_locked.md`.

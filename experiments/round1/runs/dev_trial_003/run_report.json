@@ -1,6 +1,27 @@
 {
   "groups": {
     "baseline_ref": {
+      "boundary_diagnostics": {
+        "action_as_constraint_count": 1.0,
+        "artifact_as_action_count": 0.0,
+        "constraint_as_action_count": 0.666667,
+        "parameter_as_action_count": 0.166667,
+        "parameter_as_constraint_count": 0.5
+      },
+      "cost_efficiency": {
+        "delta_cost_vs_baseline": 0.0,
+        "delta_interaction_vs_baseline": 0.0,
+        "delta_quality_vs_baseline": 0.0,
+        "delta_runtime_vs_baseline": 0.0,
+        "quality_per_1k_tokens": 0.0,
+        "quality_per_second": 0.0
+      },
+      "hard_fail_breakdown": {
+        "invalid_json_count": 0.0,
+        "missing_prediction_count": 0.0,
+        "schema_invalid_count": 0.0,
+        "wrong_task_id_count": 0.0
+      },
       "mean_hard_fail_count": 0.0,
       "mean_primary_metrics": {
         "action_f1": 0.316667,
@@ -21,12 +42,50 @@
         "average_token_usage": 0.0,
         "constraint_semantic_f1": 0.455556,
         "critical_error_rate": 0.0,
-        "hallucination_rate": 0.0,
-        "score_variance": 0.0
+        "hallucination_rate": 0.425926,
+        "score_variance": 0.0,
+        "unsupported_action_rate": 0.611111,
+        "unsupported_constraint_rate": 0.666667,
+        "unsupported_entity_rate": 0.0
       },
-      "run_count": 1
+      "run_count": 1,
+      "score_layers": {
+        "contract_score": 0.70256,
+        "meaning_score": 0.572083,
+        "operational_score": 1.0
+      },
+      "stability": {
+        "contract_score_std": 0.0,
+        "meaning_score_std": 0.0,
+        "primary_score_max": 0.70256,
+        "primary_score_min": 0.70256,
+        "primary_score_range": 0.0,
+        "primary_score_std": 0.0,
+        "win_rate_vs_baseline": 1.0
+      }
     },
     "treatment_a_boundary": {
+      "boundary_diagnostics": {
+        "action_as_constraint_count": 0.333333,
+        "artifact_as_action_count": 0.0,
+        "constraint_as_action_count": 0.666667,
+        "parameter_as_action_count": 0.0,
+        "parameter_as_constraint_count": 0.0
+      },
+      "cost_efficiency": {
+        "delta_cost_vs_baseline": 0.0,
+        "delta_interaction_vs_baseline": 0.0,
+        "delta_quality_vs_baseline": -0.021002,
+        "delta_runtime_vs_baseline": 0.0,
+        "quality_per_1k_tokens": 0.0,
+        "quality_per_second": 0.0
+      },
+      "hard_fail_breakdown": {
+        "invalid_json_count": 0.0,
+        "missing_prediction_count": 0.0,
+        "schema_invalid_count": 0.0,
+        "wrong_task_id_count": 0.0
+      },
       "mean_hard_fail_count": 0.0,
       "mean_primary_metrics": {
         "action_f1": 0.483333,
@@ -47,12 +106,50 @@
         "average_token_usage": 0.0,
         "constraint_semantic_f1": 0.738012,
         "critical_error_rate": 0.0,
-        "hallucination_rate": 0.0,
-        "score_variance": 0.0
+        "hallucination_rate": 0.222222,
+        "score_variance": 0.0,
+        "unsupported_action_rate": 0.263889,
+        "unsupported_constraint_rate": 0.402778,
+        "unsupported_entity_rate": 0.0
       },
-      "run_count": 2
+      "run_count": 2,
+      "score_layers": {
+        "contract_score": 0.681558,
+        "meaning_score": 0.810765,
+        "operational_score": 0.882004
+      },
+      "stability": {
+        "contract_score_std": 0.058998,
+        "meaning_score_std": 0.007221,
+        "primary_score_max": 0.740556,
+        "primary_score_min": 0.62256,
+        "primary_score_range": 0.117996,
+        "primary_score_std": 0.058998,
+        "win_rate_vs_baseline": 0.5
+      }
     },
     "treatment_a_ref": {
+      "boundary_diagnostics": {
+        "action_as_constraint_count": 1.5,
+        "artifact_as_action_count": 0.0,
+        "constraint_as_action_count": 0.166667,
+        "parameter_as_action_count": 0.0,
+        "parameter_as_constraint_count": 0.0
+      },
+      "cost_efficiency": {
+        "delta_cost_vs_baseline": 0.0,
+        "delta_interaction_vs_baseline": 0.0,
+        "delta_quality_vs_baseline": -0.071528,
+        "delta_runtime_vs_baseline": 0.0,
+        "quality_per_1k_tokens": 0.0,
+        "quality_per_second": 0.0
+      },
+      "hard_fail_breakdown": {
+        "invalid_json_count": 0.0,
+        "missing_prediction_count": 0.0,
+        "schema_invalid_count": 0.0,
+        "wrong_task_id_count": 0.0
+      },
       "mean_hard_fail_count": 0.0,
       "mean_primary_metrics": {
         "action_f1": 0.0,
@@ -74,12 +171,29 @@
         "constraint_semantic_f1": 0.519861,
         "critical_error_rate": 0.0,
         "hallucination_rate": 0.0,
-        "score_variance": 0.0
+        "score_variance": 0.0,
+        "unsupported_action_rate": 0.0,
+        "unsupported_constraint_rate": 0.0,
+        "unsupported_entity_rate": 0.0
       },
-      "run_count": 1
+      "run_count": 1,
+      "score_layers": {
+        "contract_score": 0.631032,
+        "meaning_score": 0.635115,
+        "operational_score": 1.0
+      },
+      "stability": {
+        "contract_score_std": 0.0,
+        "meaning_score_std": 0.0,
+        "primary_score_max": 0.631032,
+        "primary_score_min": 0.631032,
+        "primary_score_range": 0.0,
+        "primary_score_std": 0.0,
+        "win_rate_vs_baseline": 0.0
+      }
     }
   },
-  "manifest_path": "experiments/round1/runs/dev_trial_003/manifest.json",
+  "manifest_path": "/home/ubuntu/下载/LLM_learning/personal_engineering_system/experiments/round1/runs/dev_trial_003/manifest.json",
   "runs": [
     {
       "group_name": "baseline_ref",
@@ -87,6 +201,13 @@
       "repeat_id": "r1",
       "results": [
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.4,
@@ -107,12 +228,22 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 0.5,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.666667,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 1.0,
+            "unsupported_constraint_rate": 1.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_zh_0007"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 1
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -134,11 +265,21 @@
             "constraint_semantic_f1": 0.0,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_en_0008"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 1,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.333333,
@@ -159,12 +300,22 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.555556,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.666667,
+            "unsupported_constraint_rate": 1.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_mix_0009"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 2,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 1
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.5,
@@ -185,12 +336,22 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 0.4,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.666667,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 1.0,
+            "unsupported_constraint_rate": 1.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_zh_0010"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.666667,
@@ -212,11 +373,21 @@
             "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_en_0011"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 0,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 1
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -237,14 +408,30 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 0.5,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.666667,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 1.0,
+            "unsupported_constraint_rate": 1.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_mix_0012"
         }
       ],
       "summary": {
+        "hard_fail_breakdown": {
+          "invalid_json_count": 0,
+          "missing_prediction_count": 0,
+          "schema_invalid_count": 0,
+          "wrong_task_id_count": 0
+        },
         "hard_fail_count": 0,
+        "mean_diagnostics": {
+          "action_as_constraint_count": 1.0,
+          "artifact_as_action_count": 0.0,
+          "constraint_as_action_count": 0.666667,
+          "parameter_as_action_count": 0.166667,
+          "parameter_as_constraint_count": 0.5
+        },
         "mean_primary_metrics": {
           "action_f1": 0.316667,
           "artifact_f1": 0.777778,
@@ -264,8 +451,11 @@
           "average_token_usage": 0.0,
           "constraint_semantic_f1": 0.455556,
           "critical_error_rate": 0.0,
-          "hallucination_rate": 0.0,
-          "score_variance": 0.0
+          "hallucination_rate": 0.425926,
+          "score_variance": 0.0,
+          "unsupported_action_rate": 0.611111,
+          "unsupported_constraint_rate": 0.666667,
+          "unsupported_entity_rate": 0.0
         },
         "missing_prediction_count": 0,
         "sample_count": 6,
@@ -278,6 +468,13 @@
       "repeat_id": "r1",
       "results": [
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -299,11 +496,21 @@
             "constraint_semantic_f1": 0.4125,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_zh_0007"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -325,11 +532,21 @@
             "constraint_semantic_f1": 0.0,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_en_0008"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 2,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -351,11 +568,21 @@
             "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_mix_0009"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 2,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -377,11 +604,21 @@
             "constraint_semantic_f1": 0.706667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_zh_0010"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 2,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -403,11 +640,21 @@
             "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_en_0011"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -429,13 +676,29 @@
             "constraint_semantic_f1": 0.666667,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_mix_0012"
         }
       ],
       "summary": {
+        "hard_fail_breakdown": {
+          "invalid_json_count": 0,
+          "missing_prediction_count": 0,
+          "schema_invalid_count": 0,
+          "wrong_task_id_count": 0
+        },
         "hard_fail_count": 0,
+        "mean_diagnostics": {
+          "action_as_constraint_count": 1.5,
+          "artifact_as_action_count": 0.0,
+          "constraint_as_action_count": 0.166667,
+          "parameter_as_action_count": 0.0,
+          "parameter_as_constraint_count": 0.0
+        },
         "mean_primary_metrics": {
           "action_f1": 0.0,
           "artifact_f1": 0.777778,
@@ -456,7 +719,10 @@
           "constraint_semantic_f1": 0.519861,
           "critical_error_rate": 0.0,
           "hallucination_rate": 0.0,
-          "score_variance": 0.0
+          "score_variance": 0.0,
+          "unsupported_action_rate": 0.0,
+          "unsupported_constraint_rate": 0.0,
+          "unsupported_entity_rate": 0.0
         },
         "missing_prediction_count": 0,
         "sample_count": 6,
@@ -469,6 +735,13 @@
       "repeat_id": "r1",
       "results": [
         {
+          "diagnostics": {
+            "action_as_constraint_count": 0,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.666667,
@@ -489,12 +762,22 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 1.0,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.666667,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 1.0,
+            "unsupported_constraint_rate": 1.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_zh_0007"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 0,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.666667,
@@ -516,11 +799,21 @@
             "constraint_semantic_f1": 0.5,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_en_0008"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 0,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.333333,
@@ -541,12 +834,22 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 0.883333,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.388889,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.666667,
+            "unsupported_constraint_rate": 0.5,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_mix_0009"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.8,
@@ -567,12 +870,22 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 0.571429,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.666667,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 1.0,
+            "unsupported_constraint_rate": 1.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_zh_0010"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 0,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.666667,
@@ -593,12 +906,22 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 1.0,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.166667,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.5,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_en_0011"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.333333,
@@ -619,14 +942,30 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 0.4,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.5,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.5,
+            "unsupported_constraint_rate": 1.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_mix_0012"
         }
       ],
       "summary": {
+        "hard_fail_breakdown": {
+          "invalid_json_count": 0,
+          "missing_prediction_count": 0,
+          "schema_invalid_count": 0,
+          "wrong_task_id_count": 0
+        },
         "hard_fail_count": 0,
+        "mean_diagnostics": {
+          "action_as_constraint_count": 0.333333,
+          "artifact_as_action_count": 0.0,
+          "constraint_as_action_count": 0.666667,
+          "parameter_as_action_count": 0.0,
+          "parameter_as_constraint_count": 0.0
+        },
         "mean_primary_metrics": {
           "action_f1": 0.577778,
           "artifact_f1": 0.722222,
@@ -646,8 +985,11 @@
           "average_token_usage": 0.0,
           "constraint_semantic_f1": 0.725794,
           "critical_error_rate": 0.0,
-          "hallucination_rate": 0.0,
-          "score_variance": 0.0
+          "hallucination_rate": 0.398148,
+          "score_variance": 0.0,
+          "unsupported_action_rate": 0.527778,
+          "unsupported_constraint_rate": 0.666667,
+          "unsupported_entity_rate": 0.0
         },
         "missing_prediction_count": 0,
         "sample_count": 6,
@@ -660,6 +1002,13 @@
       "repeat_id": "r2",
       "results": [
         {
+          "diagnostics": {
+            "action_as_constraint_count": 0,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -681,11 +1030,21 @@
             "constraint_semantic_f1": 0.9125,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_zh_0007"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 0,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 1.0,
@@ -707,11 +1066,21 @@
             "constraint_semantic_f1": 0.5,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_en_0008"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 0,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.333333,
@@ -733,11 +1102,21 @@
             "constraint_semantic_f1": 1.0,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_mix_0009"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -758,12 +1137,22 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 0.588889,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.111111,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.333333,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_zh_0010"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 0,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 1,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 1.0,
@@ -785,11 +1174,21 @@
             "constraint_semantic_f1": 1.0,
             "critical_error_rate": 0.0,
             "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.0,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_en_0011"
         },
         {
+          "diagnostics": {
+            "action_as_constraint_count": 1,
+            "artifact_as_action_count": 0,
+            "constraint_as_action_count": 0,
+            "parameter_as_action_count": 0,
+            "parameter_as_constraint_count": 0
+          },
           "hard_fail_reason": null,
           "primary_metrics": {
             "action_f1": 0.0,
@@ -810,14 +1209,30 @@
             "average_token_usage": 0.0,
             "constraint_semantic_f1": 0.5,
             "critical_error_rate": 0.0,
-            "hallucination_rate": 0.0,
-            "score_variance": 0.0
+            "hallucination_rate": 0.166667,
+            "score_variance": 0.0,
+            "unsupported_action_rate": 0.0,
+            "unsupported_constraint_rate": 0.5,
+            "unsupported_entity_rate": 0.0
           },
           "task_id": "seed_mix_0012"
         }
       ],
       "summary": {
+        "hard_fail_breakdown": {
+          "invalid_json_count": 0,
+          "missing_prediction_count": 0,
+          "schema_invalid_count": 0,
+          "wrong_task_id_count": 0
+        },
         "hard_fail_count": 0,
+        "mean_diagnostics": {
+          "action_as_constraint_count": 0.333333,
+          "artifact_as_action_count": 0.0,
+          "constraint_as_action_count": 0.666667,
+          "parameter_as_action_count": 0.0,
+          "parameter_as_constraint_count": 0.0
+        },
         "mean_primary_metrics": {
           "action_f1": 0.388889,
           "artifact_f1": 0.0,
@@ -837,8 +1252,11 @@
           "average_token_usage": 0.0,
           "constraint_semantic_f1": 0.750231,
           "critical_error_rate": 0.0,
-          "hallucination_rate": 0.0,
-          "score_variance": 0.0
+          "hallucination_rate": 0.046296,
+          "score_variance": 0.0,
+          "unsupported_action_rate": 0.0,
+          "unsupported_constraint_rate": 0.138889,
+          "unsupported_entity_rate": 0.0
         },
         "missing_prediction_count": 0,
         "sample_count": 6,

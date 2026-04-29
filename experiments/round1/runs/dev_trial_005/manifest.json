@@ -1,0 +1,22 @@
+{
+  "split": "experiments/round1/splits/dev.jsonl",
+  "task_ids": [
+    "seed_zh_0007",
+    "seed_en_0011",
+    "seed_mix_0009"
+  ],
+  "groups": {
+    "baseline_schema_safe_replay": [
+      {
+        "repeat_id": "r1",
+        "prediction_dir": "experiments/round1/runs/dev_trial_005/baseline_schema_safe_replay_r1"
+      }
+    ],
+    "treatment_a_boundary_schema_safe_replay": [
+      {
+        "repeat_id": "r1",
+        "prediction_dir": "experiments/round1/runs/dev_trial_005/treatment_a_boundary_schema_safe_replay_r1"
+      }
+    ]
+  }
+}

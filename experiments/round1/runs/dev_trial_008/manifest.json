@@ -1,0 +1,34 @@
+{
+  "split": "experiments/round1/splits/dev.jsonl",
+  "task_ids": [
+    "seed_zh_0007",
+    "seed_en_0011",
+    "seed_mix_0009"
+  ],
+  "groups": {
+    "baseline_example_locked_ablation": [
+      {
+        "repeat_id": "r1",
+        "prediction_dir": "experiments/round1/runs/dev_trial_008/baseline_example_locked_ablation_r1"
+      }
+    ],
+    "treatment_rule1_only": [
+      {
+        "repeat_id": "r1",
+        "prediction_dir": "experiments/round1/runs/dev_trial_008/treatment_rule1_only_r1"
+      }
+    ],
+    "treatment_rule12": [
+      {
+        "repeat_id": "r1",
+        "prediction_dir": "experiments/round1/runs/dev_trial_008/treatment_rule12_r1"
+      }
+    ],
+    "treatment_rule123": [
+      {
+        "repeat_id": "r1",
+        "prediction_dir": "experiments/round1/runs/dev_trial_008/treatment_rule123_r1"
+      }
+    ]
+  }
+}

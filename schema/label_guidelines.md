@@ -32,8 +32,12 @@ Define how to create gold JSON for bilingual technical extraction samples.
 - Use `actions` for tasks or events with a clear verb. `status` is an annotation attribute of the action mention, not part of the canonical action identity.
 
 ### artifacts
-- Record files, URLs, logs, commands, and config items.
-- Use `artifacts` for referenced objects that can be inspected or executed. If the text tells someone to run a command, record the command as an artifact and the instruction itself as an action.
+- Record concrete referenced objects such as files, URLs, logs, configs, tables, or named outputs.
+- Use `artifacts` for objects that are treated as deliverables, inspectable references, persisted files, or explicit external resources.
+- Do not automatically promote every verb object into `artifacts`.
+- If the text says to run a script or command, keep the instruction in `actions`. Only also add an `artifact` when the script/command itself is treated as a named file or reusable object in the labeling policy for that sample set.
+- For the current round-1 gold set, executable mentions like `run verify_cache.sh` should remain actions unless the script is explicitly labeled as an output/reference object in gold.
+- Output files, logs, saved reports, configs, and retained files should still be labeled as `artifacts` when explicitly named.
 
 ### timestamps
 - Keep original text and normalize only when the source supports it.
